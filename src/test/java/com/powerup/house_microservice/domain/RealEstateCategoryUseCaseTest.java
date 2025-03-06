@@ -4,7 +4,7 @@ import com.powerup.house_microservice.domain.exception.RealEstateCategoryAlready
 import com.powerup.house_microservice.domain.factory.RealEstateCategoryTestDataFactory;
 import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
 import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
-import com.powerup.house_microservice.domain.useCase.RealEstateCategoryUseCase;
+import com.powerup.house_microservice.domain.usecase.RealEstateCategoryUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
