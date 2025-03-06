@@ -2,7 +2,7 @@ package com.powerup.house_microservice.infrastructure.configuration;
 
 import com.powerup.house_microservice.domain.api.IRealEstateCategoryServicePort;
 import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
-import com.powerup.house_microservice.domain.useCase.RealEstateCategoryUseCase;
+import com.powerup.house_microservice.domain.usecase.RealEstateCategoryUseCase;
 import com.powerup.house_microservice.infrastructure.out.jpa.adapter.RealEstateCategoryJpaAdapter;
 import com.powerup.house_microservice.infrastructure.out.jpa.mapper.IRealEstateCategoryEntityMapper;
 import com.powerup.house_microservice.infrastructure.out.jpa.repository.IRealEstateCategoryRepository;

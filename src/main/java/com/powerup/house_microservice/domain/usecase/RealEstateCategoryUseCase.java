@@ -1,4 +1,4 @@
-package com.powerup.house_microservice.domain.useCase;
+package com.powerup.house_microservice.domain.usecase;
 
 import com.powerup.house_microservice.domain.api.IRealEstateCategoryServicePort;
 import com.powerup.house_microservice.domain.exception.RealEstateCategoryAlreadyExistException;

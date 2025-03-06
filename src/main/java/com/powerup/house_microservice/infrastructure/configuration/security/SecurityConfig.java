@@ -1,4 +1,4 @@
-package com.powerup.house_microservice.infrastructure.configuration.Security;
+package com.powerup.house_microservice.infrastructure.configuration.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
