@@ -1,15 +1,15 @@
 package com.powerup.house_microservice.domain.model;
 
-public class RealEstateCategory {
+public class RealEstateCategoryModel {
 
     private Long id;
     private String name;
     private String description;
 
-    public RealEstateCategory() {
+    public RealEstateCategoryModel() {
     }
 
-    public RealEstateCategory(Long id, String name, String description) {
+    public RealEstateCategoryModel(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
