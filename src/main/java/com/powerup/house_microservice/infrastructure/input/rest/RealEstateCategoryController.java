@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/EstateCategory")
+@RequestMapping("/real-estate-category")
 public class RealEstateCategoryController {
 
     private final RealEstateCategoryHandler realEstateCategoryHandler;
