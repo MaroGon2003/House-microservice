@@ -18,9 +18,10 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable) // para desabilitar vulnerabilidade en los formularios web podria quitarse
                 .authorizeHttpRequests(authRequest -> authRequest
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**",
-                                "/v3/api-docs/**", "/real-estate-category/save").permitAll()
-                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
+                        //.requestMatchers("/swagger-ui.html", "/swagger-ui/**",
+                        //        "/v3/api-docs/**", "/real-estate-category/save").permitAll()
+                        //.anyRequest().authenticated()
                 )
                 .build();
     }

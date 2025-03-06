@@ -1,6 +1,6 @@
 package com.powerup.house_microservice.application.mapper.request;
 
-import com.powerup.house_microservice.application.dto.request.RealEstateCategoryDto;
+import com.powerup.house_microservice.application.dto.request.RealEstateCategoryRequestDto;
 import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -10,6 +10,6 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IRealEstateCategoryRequestMapper {
 
-    RealEstateCategoryModel toRealEstateCategoryModel(RealEstateCategoryDto realEstateCategoryDto);
+    RealEstateCategoryModel toRealEstateCategoryModel(RealEstateCategoryRequestDto realEstateCategoryRequestDto);
 
 }

@@ -6,6 +6,9 @@ import com.powerup.house_microservice.infrastructure.out.jpa.mapper.IRealEstateC
 import com.powerup.house_microservice.infrastructure.out.jpa.repository.IRealEstateCategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @Transactional
 @RequiredArgsConstructor
@@ -19,6 +22,12 @@ public class RealEstateCategoryJpaAdapter implements IRealEstateCategoryPersiste
 
         realEstateCategoryRepository.save(realEstateCategoryEntityMapper.toRealEstateCategoryEntity(realEstateCategory));
 
+    }
+
+    @Override
+    public List<RealEstateCategoryModel> getAllRealEstateCategories(int pageNumber, int pageSize) {
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(pageNumber);
+        return realEstateCategoryEntityMapper.toRealEstateCategoryModelList(realEstateCategoryRepository.findAll(pageable).getContent());
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
 import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
 import com.powerup.house_microservice.domain.utils.MessageConstants;
 
+import java.util.List;
+
 public class RealEstateCategoryUseCase implements IRealEstateCategoryServicePort {
 
     private final IRealEstateCategoryPersistencePort realEstateCategoryPersistencePort;
@@ -29,5 +31,14 @@ public class RealEstateCategoryUseCase implements IRealEstateCategoryServicePort
 
         realEstateCategoryPersistencePort.saveRealEstateCategory(realEstateCategory);
 
+    }
+
+    @Override
+    public List<RealEstateCategoryModel> getAllRealEstateCategories(int pageNumber, int pageSize) {
+        List<RealEstateCategoryModel> realEstateCategoryList = realEstateCategoryPersistencePort.getAllRealEstateCategories(pageNumber, pageSize);
+        if(realEstateCategoryList.isEmpty()){
+            throw new IllegalArgumentException(MessageConstants.REAL_ESTATE_CATEGORY_NOT_FOUND);
+        }
+        return realEstateCategoryList;
     }
 }
