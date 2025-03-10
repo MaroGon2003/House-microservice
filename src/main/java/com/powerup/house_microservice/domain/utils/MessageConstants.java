@@ -7,8 +7,14 @@ public class MessageConstants {
         throw new IllegalStateException("This class cannot be instantiated");
     }
 
+    //REAL ESTATE CATEGORY
     public static final String REAL_ESTATE_CATEGORY_ALREADY_EXISTS = "Real estate category already exists";
     public static final String REAL_ESTATE_CATEGORY_NOT_NULL = "Real estate category cannot be null";
     public static final String REAL_ESTATE_CATEGORY_NOT_FOUND = "Real estate category not found";
+
+    //LOCATION
+    public static final String LOCATION_ALREADY_EXISTS = "Location already exists";
+    public static final String LOCATION_NOT_NULL = "Location cannot be null";
+
 
 }

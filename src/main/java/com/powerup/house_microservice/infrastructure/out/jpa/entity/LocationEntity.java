@@ -7,21 +7,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "real_estate_category")
+@Table(name = "location")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class RealEstateCategoryEntity {
+public class LocationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(nullable = false)
+    private String city;
 
     @Column(nullable = false)
-    private String description;
+    private String state;
 
 }
