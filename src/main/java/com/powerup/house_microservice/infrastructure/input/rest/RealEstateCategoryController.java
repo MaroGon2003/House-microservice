@@ -2,6 +2,7 @@ package com.powerup.house_microservice.infrastructure.input.rest;
 
 import com.powerup.house_microservice.application.dto.request.RealEstateCategoryRequestDto;
 import com.powerup.house_microservice.application.dto.response.RealEstateCategoryResponseDto;
+import com.powerup.house_microservice.application.handler.IRealEstateCategoryHandler;
 import com.powerup.house_microservice.application.handler.impl.RealEstateCategoryHandler;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/real-estate-category")
 public class RealEstateCategoryController {
 
-    private final RealEstateCategoryHandler realEstateCategoryHandler;
+    private final IRealEstateCategoryHandler realEstateCategoryHandler;
 
     public RealEstateCategoryController(RealEstateCategoryHandler realEstateCategoryHandler) {
         this.realEstateCategoryHandler = realEstateCategoryHandler;
