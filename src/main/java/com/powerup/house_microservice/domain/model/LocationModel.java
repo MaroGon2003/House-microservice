@@ -1,41 +1,30 @@
 package com.powerup.house_microservice.domain.model;
 
 public class LocationModel {
-
-    private Long id;
-    private String city;
-    private String state;
+    private CityModel city;
+    private StateModel state;
 
     public LocationModel() {
     }
 
-    public LocationModel(Long id, String city, String state) {
-        this.id = id;
+    public LocationModel(CityModel city, StateModel state) {
         this.city = city;
         this.state = state;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCity() {
+    public CityModel getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(CityModel city) {
         this.city = city;
     }
 
-    public String getState() {
+    public StateModel getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(StateModel state) {
         this.state = state;
     }
 }

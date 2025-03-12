@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationRequestDto {
+public class StateRequestDto {
 
     @NotBlank
-    @Size(min = 2, max = 50, message = "La ciudad debe tener entre 2 y 50 caracteres")
-    private String city;
+    @Size(min = 2, max = 50, message = "El estado debe tener entre 2 y 50 caracteres")
+    private String name;
 
     @NotBlank
-    @Size(min = 2, max = 120, message = "El estado debe tener entre 2 y 120 caracteres")
-    private String state;
+    @Size(min = 2, max = 120, message = "La descripción debe tener entre 2 y 120 caracteres")
+    private String description;
 
 }
