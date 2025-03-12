@@ -1,15 +1,16 @@
 package com.powerup.house_microservice.domain.factory;
 
-import com.powerup.house_microservice.domain.model.LocationModel;
+import com.powerup.house_microservice.domain.model.CityModel;
+import com.powerup.house_microservice.domain.model.StateModel;
 
 public class LocationTestDataFactory {
 
-    public static LocationModel createLocationModel() {
-        return new LocationModel(1L, "city", "state");
+    public static StateModel createValidStateModel() {
+        return new StateModel(1L, "name", "description");
     }
 
-    public static LocationModel createLocationModelWithOutCity() {
-        return new LocationModel(1L, "", "state");
+    public static CityModel createValidCityModel() {
+        return new CityModel(1L, "name", "description");
     }
 
 }
