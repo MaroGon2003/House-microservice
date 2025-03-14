@@ -31,4 +31,5 @@ public interface ILocationEntityMapper {
     StateModel toStateModel(StateEntity stateEntity);
 
     List<LocationModel> toLocationModelList(List<LocationEntity> locationEntities);
+
 }

@@ -11,7 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 public class LocationResponseDto {
 
+
     StateResponseDto state;
     List<CityResponseDto> city;
+
 
 }

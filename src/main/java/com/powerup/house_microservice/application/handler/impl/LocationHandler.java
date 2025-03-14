@@ -25,6 +25,7 @@ public class LocationHandler implements ILocationHandler {
     private final ILocationRequestMapper locationRequestMapper;
     private final ILocationResponseMapper locationResponseMapper;
 
+
     @Override
     public void saveState(StateRequestDto locationDto) {
         locationServicePort.saveState(locationRequestMapper.toStateModel(locationDto));
@@ -54,5 +55,6 @@ public class LocationHandler implements ILocationHandler {
         return new PagedResult<>(groupedByState.entrySet().stream()
                 .map(entry -> new LocationResponseDto(entry.getKey(), entry.getValue()))
                 .toList(), page, size);
+
     }
 }

@@ -6,6 +6,7 @@ import com.powerup.house_microservice.domain.model.StateModel;
 
 import java.util.List;
 
+
 public class LocationTestDataFactory {
 
     public static StateModel createValidStateModel() {

@@ -9,6 +9,7 @@ import com.powerup.house_microservice.infrastructure.out.jpa.repository.ICityRep
 import com.powerup.house_microservice.infrastructure.out.jpa.repository.ILocationRepository;
 import com.powerup.house_microservice.infrastructure.out.jpa.repository.IStateRepository;
 import com.powerup.house_microservice.infrastructure.utils.PaginationUtils;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -75,5 +76,6 @@ public class LocationJpaAdapter implements ILocationPersistencePort {
     public List<LocationModel> getAllLocationsByStateName(String stateName, int page, int size, String sortBy, String sortDirection) {
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, sortDirection);
         return locationEntityMapper.toLocationModelList(locationRepository.findAllByStateNameIgnoreCase(stateName, pageable));
+
     }
 }

@@ -6,6 +6,7 @@ import com.powerup.house_microservice.domain.model.StateModel;
 
 import java.util.List;
 
+
 public interface ILocationPersistencePort {
 
     void saveState(StateModel state);
@@ -18,5 +19,6 @@ public interface ILocationPersistencePort {
     boolean existCityByName(String cityName);
     List<LocationModel> getAllLocationsByCityName(String cityName, int page, int size, String sortBy, String sortDirection);
     List<LocationModel> getAllLocationsByStateName(String stateName, int page, int size, String sortBy, String sortDirection);
+
 
 }

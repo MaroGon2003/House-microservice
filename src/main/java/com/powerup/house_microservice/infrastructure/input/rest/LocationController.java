@@ -20,6 +20,7 @@ public class LocationController {
     }
 
     @PostMapping("/save-state")
+
     public ResponseEntity<String> saveState(@RequestBody @Valid StateRequestDto stateRequestDto) {
 
         locationHandler.saveState(stateRequestDto);
@@ -29,6 +30,7 @@ public class LocationController {
     }
 
     @PostMapping("/save-city/{stateId}")
+
     public ResponseEntity<String> saveCity(@RequestBody @Valid CityRequestDto city, @PathVariable Long stateId) {
 
         locationHandler.saveCity(city, stateId);
@@ -43,6 +45,7 @@ public class LocationController {
         String sortDirection = ascending ? "ASC" : "DESC";
 
         return locationHandler.getAllLocationsByCityName(name, searchBy, page, size, sortDirection);
+
 
     }
 

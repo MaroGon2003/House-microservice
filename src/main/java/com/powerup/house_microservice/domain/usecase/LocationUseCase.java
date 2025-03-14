@@ -28,6 +28,7 @@ public class LocationUseCase implements ILocationServicePort {
 
         if(locationPersistencePort.existStateByName(state.getName())){
             throw new StateAlreadyExistException(ErrorMessages.STATE_ALREADY_EXIST);
+
         }
 
         locationPersistencePort.saveState(state);
@@ -75,6 +76,7 @@ public class LocationUseCase implements ILocationServicePort {
         if (city == null || state == null) {
             throw new IllegalArgumentException(ErrorMessages.STATE_OR_CITY_NULL);
         }
+
 
         LocationModel location = new LocationModel(city, state);
 

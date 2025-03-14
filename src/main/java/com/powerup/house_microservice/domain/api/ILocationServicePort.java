@@ -12,4 +12,5 @@ public interface ILocationServicePort {
     void saveCity(CityModel city, Long stateId);
     List<LocationModel> getAllLocationsByCityNameOrStateName(String name, String searchBy, int page, int size, String sortDirection);
 
+
 }

@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+
 @ExtendWith(MockitoExtension.class)
 class LocationUseCaseTest {
 
@@ -111,6 +112,7 @@ class LocationUseCaseTest {
         assertThrows(LocationAlreadyExistException.class, () -> locationUseCase.saveCity(cityModel, stateId));
     }
 
+    //State
     @Test
     void When_SaveLocation_Expect_Success() {
         CityModel cityModel = LocationTestDataFactory.createValidCityModel();

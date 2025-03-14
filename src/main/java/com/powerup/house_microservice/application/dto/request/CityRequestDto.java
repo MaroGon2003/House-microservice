@@ -1,6 +1,8 @@
 package com.powerup.house_microservice.application.dto.request;
 
+
 import com.powerup.house_microservice.application.utils.ValidationMessages;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,7 @@ public class CityRequestDto {
 
     @NotBlank
     @Size(min = 2, max = 120, message = ValidationMessages.DESCRIPTION_SIZE_LOCATION)
+  
     private String description;
 
 }
