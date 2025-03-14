@@ -1,5 +1,8 @@
 package com.powerup.house_microservice.application.dto.request;
 
+
+import com.powerup.house_microservice.application.utils.ValidationMessages;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -12,11 +15,12 @@ import lombok.NoArgsConstructor;
 public class StateRequestDto {
 
     @NotBlank
-    @Size(min = 2, max = 50, message = "El estado debe tener entre 2 y 50 caracteres")
+    @Size(min = 2, max = 50, message = ValidationMessages.NAME_SIZE_LOCATION)
     private String name;
 
     @NotBlank
-    @Size(min = 2, max = 120, message = "La descripción debe tener entre 2 y 120 caracteres")
+    @Size(min = 2, max = 120, message = ValidationMessages.DESCRIPTION_SIZE_LOCATION)
+
     private String description;
 
 }

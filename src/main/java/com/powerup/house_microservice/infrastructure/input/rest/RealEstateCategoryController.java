@@ -4,11 +4,10 @@ import com.powerup.house_microservice.application.dto.request.RealEstateCategory
 import com.powerup.house_microservice.application.dto.response.RealEstateCategoryResponseDto;
 import com.powerup.house_microservice.application.handler.IRealEstateCategoryHandler;
 import com.powerup.house_microservice.application.handler.impl.RealEstateCategoryHandler;
+import com.powerup.house_microservice.application.utils.PagedResult;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/real-estate-category")
@@ -32,9 +31,13 @@ public class RealEstateCategoryController {
 
     //All users can get all real estate categories
     @GetMapping("/all")
-    public ResponseEntity<List<RealEstateCategoryResponseDto>> getAllRealEstateCategories(@RequestParam int pageNumber, @RequestParam int pageSize) {
+    public ResponseEntity<PagedResult<RealEstateCategoryResponseDto>> getAllRealEstateCategories(int page, int size, String sortBy, boolean ascending) {
 
-        return ResponseEntity.ok(realEstateCategoryHandler.getAllRealEstateCategories(pageNumber, pageSize));
+        String sortDirection = ascending ? "ASC" : "DESC";
+
+        PagedResult<RealEstateCategoryResponseDto> result = realEstateCategoryHandler.getAllRealEstateCategories(page, size, sortBy, sortDirection);
+
+        return ResponseEntity.ok(result);
 
     }
 

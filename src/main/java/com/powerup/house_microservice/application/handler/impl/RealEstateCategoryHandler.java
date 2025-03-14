@@ -6,6 +6,7 @@ import com.powerup.house_microservice.application.handler.IRealEstateCategoryHan
 import com.powerup.house_microservice.application.mapper.request.IRealEstateCategoryRequestMapper;
 import com.powerup.house_microservice.application.mapper.response.IRealEstateCategoryResponseMapper;
 import com.powerup.house_microservice.domain.api.IRealEstateCategoryServicePort;
+import com.powerup.house_microservice.application.utils.PagedResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,11 @@ public class RealEstateCategoryHandler implements IRealEstateCategoryHandler {
     }
 
     @Override
-    public List<RealEstateCategoryResponseDto> getAllRealEstateCategories(int pageNumber, int pageSize) {
-        return realEstateCategoryResponseMapper.toRealEstateCategoryDtoList(realEstateCategoryServicePort.getAllRealEstateCategories(pageNumber, pageSize));
+    public PagedResult<RealEstateCategoryResponseDto> getAllRealEstateCategories(int page, int size, String sortBy, String sortDirection) {
+
+        List<RealEstateCategoryResponseDto> realEstateCategoryResponseDtoList = realEstateCategoryResponseMapper.toRealEstateCategoryResponseDtoList(realEstateCategoryServicePort.getAllRealEstateCategories(page, size, sortBy, sortDirection));
+        return new PagedResult<>(realEstateCategoryResponseDtoList, page, size);
+
     }
+
 }
