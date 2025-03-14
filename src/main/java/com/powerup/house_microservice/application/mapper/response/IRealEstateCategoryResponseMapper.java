@@ -12,6 +12,6 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IRealEstateCategoryResponseMapper {
 
-    List<RealEstateCategoryResponseDto> toRealEstateCategoryDtoList(List<RealEstateCategoryModel> realEstateCategoryModelList);
+    List<RealEstateCategoryResponseDto> toRealEstateCategoryResponseDtoList(List<RealEstateCategoryModel> realEstateCategoryModelList);
 
 }

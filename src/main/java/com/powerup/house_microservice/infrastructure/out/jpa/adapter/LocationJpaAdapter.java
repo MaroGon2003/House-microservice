@@ -8,8 +8,12 @@ import com.powerup.house_microservice.infrastructure.out.jpa.mapper.ILocationEnt
 import com.powerup.house_microservice.infrastructure.out.jpa.repository.ICityRepository;
 import com.powerup.house_microservice.infrastructure.out.jpa.repository.ILocationRepository;
 import com.powerup.house_microservice.infrastructure.out.jpa.repository.IStateRepository;
+import com.powerup.house_microservice.infrastructure.utils.PaginationUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @Transactional
 @RequiredArgsConstructor
@@ -54,5 +58,22 @@ public class LocationJpaAdapter implements ILocationPersistencePort {
     @Override
     public boolean existStateAndCity(String cityName, Long stateId) {
         return locationRepository.existsByCityNameIgnoreCaseAndStateId(cityName, stateId);
+    }
+
+    @Override
+    public boolean existCityByName(String cityName) {
+        return cityRepository.existsByNameIgnoreCase(cityName);
+    }
+
+    @Override
+    public List<LocationModel> getAllLocationsByCityName(String cityName, int page, int size, String sortBy, String sortDirection) {
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, sortDirection);
+        return locationEntityMapper.toLocationModelList(locationRepository.findAllByCityNameIgnoreCase(cityName, pageable));
+    }
+
+    @Override
+    public List<LocationModel> getAllLocationsByStateName(String stateName, int page, int size, String sortBy, String sortDirection) {
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, sortDirection);
+        return locationEntityMapper.toLocationModelList(locationRepository.findAllByStateNameIgnoreCase(stateName, pageable));
     }
 }

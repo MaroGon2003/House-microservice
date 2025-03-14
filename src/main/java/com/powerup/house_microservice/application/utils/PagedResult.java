@@ -1,4 +1,4 @@
-package com.powerup.house_microservice.domain.utils;
+package com.powerup.house_microservice.application.utils;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ public class PagedResult<T> {
     private final long totalElements;
     private final int totalPages;
 
-    public PagedResult(List<T> content, int page, int size, long totalElements) {
+    public PagedResult(List<T> content, int page, int size) {
         this.content = content;
         this.page = page;
         this.size = size;
-        this.totalElements = totalElements;
+        this.totalElements = content.size();
         this.totalPages = (int) Math.ceil((double) totalElements / size);
     }
 

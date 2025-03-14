@@ -1,12 +1,12 @@
 package com.powerup.house_microservice.application.handler;
 
 import com.powerup.house_microservice.application.dto.request.RealEstateCategoryRequestDto;
-
-import java.util.List;
+import com.powerup.house_microservice.application.dto.response.RealEstateCategoryResponseDto;
+import com.powerup.house_microservice.application.utils.PagedResult;
 
 public interface IRealEstateCategoryHandler {
     void saveRealEstateCategory(RealEstateCategoryRequestDto realEstateCategoryRequestDto);
 
-    List<com.powerup.house_microservice.application.dto.response.RealEstateCategoryResponseDto> getAllRealEstateCategories(int pageNumber, int pageSize);
+    PagedResult<RealEstateCategoryResponseDto> getAllRealEstateCategories(int page, int size, String sortBy, String sortDirection);
 
 }

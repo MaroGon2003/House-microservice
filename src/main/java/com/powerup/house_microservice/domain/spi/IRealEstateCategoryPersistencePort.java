@@ -8,7 +8,7 @@ public interface IRealEstateCategoryPersistencePort {
 
     void saveRealEstateCategory(RealEstateCategoryModel realEstateCategory);
 
-    List<RealEstateCategoryModel> getAllRealEstateCategories(int pageNumber, int pageSize);
+    List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, String sortBy, String sortDirection);
 
     boolean existsRealEstateCategoryByName(String name);
 
