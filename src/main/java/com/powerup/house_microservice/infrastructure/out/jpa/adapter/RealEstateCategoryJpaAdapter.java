@@ -26,8 +26,8 @@ public class RealEstateCategoryJpaAdapter implements IRealEstateCategoryPersiste
     }
 
     @Override
-    public List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, String sortBy, String sortDirection) {
-        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, sortDirection);
+    public List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, String sortDirection) {
+        Pageable pageable = PaginationUtils.createPageable(page, size, "name", sortDirection);
         return realEstateCategoryEntityMapper.toRealEstateCategoryModelList(realEstateCategoryRepository.findAll(pageable).getContent());
     }
 

@@ -1,16 +1,14 @@
 package com.powerup.house_microservice.domain.api;
 
-import com.powerup.house_microservice.domain.model.CityModel;
 import com.powerup.house_microservice.domain.model.LocationModel;
-import com.powerup.house_microservice.domain.model.StateModel;
+
 
 import java.util.List;
 
 public interface ILocationServicePort {
+    List<LocationModel> getLocations(String stateName, String cityName, int page, int size, String sortDirection);
 
-    void saveState(StateModel state);
-    void saveCity(CityModel city, Long stateId);
-    List<LocationModel> getAllLocationsByCityNameOrStateName(String name, String searchBy, int page, int size, String sortDirection);
+    void saveLocation(Long cityId, String neighborhood);
 
 
 }

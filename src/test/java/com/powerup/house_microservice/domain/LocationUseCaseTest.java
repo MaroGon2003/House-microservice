@@ -1,16 +1,12 @@
 package com.powerup.house_microservice.domain;
 
-import com.powerup.house_microservice.domain.exception.LocationAlreadyExistException;
-import com.powerup.house_microservice.domain.exception.LocationNotFoundException;
-import com.powerup.house_microservice.domain.exception.StateAlreadyExistException;
-import com.powerup.house_microservice.domain.exception.StateNotFoundException;
+import com.powerup.house_microservice.domain.exception.*;
 import com.powerup.house_microservice.domain.factory.LocationTestDataFactory;
 import com.powerup.house_microservice.domain.model.CityModel;
 import com.powerup.house_microservice.domain.model.LocationModel;
-import com.powerup.house_microservice.domain.model.StateModel;
 import com.powerup.house_microservice.domain.spi.ILocationPersistencePort;
+import com.powerup.house_microservice.domain.usecase.CityUseCase;
 import com.powerup.house_microservice.domain.usecase.LocationUseCase;
-import com.powerup.house_microservice.domain.utils.ErrorMessages;
 import com.powerup.house_microservice.domain.utils.PaginationValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,172 +22,114 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-
-
 @ExtendWith(MockitoExtension.class)
 class LocationUseCaseTest {
-
-    @InjectMocks
-    private LocationUseCase locationUseCase;
 
     @Mock
     private ILocationPersistencePort locationPersistencePort;
 
-    private String name;
-    private String searchBy;
+    @Mock
+    private CityUseCase cityUseCase;
+
+    @InjectMocks
+    private LocationUseCase locationUseCase;
+
+    private String stateName;
+    private String cityName;
     private int page;
     private int size;
     private String sortDirection;
 
     @BeforeEach
     void setup() {
-        name = "antioquia";
-        searchBy = "state";
+        stateName = "Test State";
+        cityName = "Test City";
         page = 0;
         size = 10;
         sortDirection = "asc";
     }
 
-    //State
     @Test
-    void When_SaveState_Expect_Success() {
-        StateModel stateModel = LocationTestDataFactory.createValidStateModel();
-        when(locationPersistencePort.existStateByName(stateModel.getName())).thenReturn(false);
-        locationUseCase.saveState(stateModel);
-        verify(locationPersistencePort).saveState(stateModel);
+    void getLocations_ShouldReturnLocations_WhenStateAndCityProvided() {
+        List<LocationModel> locationModelList = List.of(LocationTestDataFactory.createValidLocationModel());
+
+        when(locationPersistencePort.getAllLocationsByStateAndCityName(stateName, cityName, page, size, sortDirection)).thenReturn(locationModelList);
+
+        List<LocationModel> result = locationUseCase.getLocations(stateName, cityName, page, size, sortDirection);
+
+        assertEquals(locationModelList, result);
     }
 
     @Test
-    void When_saveState_Expect_StateAlreadyExistException() {
-        StateModel stateModel = LocationTestDataFactory.createValidStateModel();
-        when(locationPersistencePort.existStateByName(stateModel.getName())).thenReturn(true);
-        assertThrows(StateAlreadyExistException.class, () -> locationUseCase.saveState(stateModel));
-    }
+    void getLocations_ShouldReturnLocations_WhenOnlyStateProvided() {
+        List<LocationModel> locationModelList = List.of(LocationTestDataFactory.createValidLocationModel());
 
-    //City
-    @Test
-    void When_SaveCity_Expect_Success() {
-        CityModel cityModel = LocationTestDataFactory.createValidCityModel();
-        StateModel stateModel = LocationTestDataFactory.createValidStateModel();
-        Long stateId = 1L;
+        when(locationPersistencePort.getAllLocationsByStateName(stateName, page, size, sortDirection)).thenReturn(locationModelList);
 
-        when(locationPersistencePort.getStateById(stateId)).thenReturn(stateModel);
-        when(locationPersistencePort.existStateAndCity(cityModel.getName(), stateId)).thenReturn(false);
-        when(locationPersistencePort.saveCity(cityModel)).thenReturn(cityModel);
+        List<LocationModel> result = locationUseCase.getLocations(stateName, null, page, size, sortDirection);
 
-        locationUseCase.saveCity(cityModel, stateId);
-
-        ArgumentCaptor<LocationModel> locationCaptor = ArgumentCaptor.forClass(LocationModel.class);
-        verify(locationPersistencePort).saveCity(cityModel);
-        verify(locationPersistencePort).saveLocation(locationCaptor.capture());
-
-        LocationModel capturedLocation = locationCaptor.getValue();
-        assertEquals(cityModel, capturedLocation.getCity());
-        assertEquals(stateModel, capturedLocation.getState());
+        assertEquals(locationModelList, result);
     }
 
     @Test
-    void When_SaveCity_Expect_StateNotFoundException() {
-        CityModel cityModel = LocationTestDataFactory.createValidCityModel();
-        Long stateId = 1L;
+    void getLocations_ShouldReturnLocations_WhenOnlyCityProvided() {
+        List<LocationModel> locationModelList = List.of(LocationTestDataFactory.createValidLocationModel());
 
-        when(locationPersistencePort.getStateById(stateId)).thenReturn(null);
+        when(locationPersistencePort.getAllLocationsByCityName(cityName, page, size, sortDirection)).thenReturn(locationModelList);
 
-        assertThrows(StateNotFoundException.class, () -> locationUseCase.saveCity(cityModel, stateId));
+        List<LocationModel> result = locationUseCase.getLocations(null, cityName, page, size, sortDirection);
+
+        assertEquals(locationModelList, result);
     }
 
     @Test
-    void When_SaveCity_Expect_LocationAlreadyExistException() {
-        CityModel cityModel = LocationTestDataFactory.createValidCityModel();
-        StateModel stateModel = LocationTestDataFactory.createValidStateModel();
-        Long stateId = 1L;
+    void getLocations_ShouldReturnAllLocations_WhenNoStateOrCityProvided() {
+        List<LocationModel> locationModelList = List.of(LocationTestDataFactory.createValidLocationModel());
 
-        when(locationPersistencePort.getStateById(stateId)).thenReturn(stateModel);
-        when(locationPersistencePort.existStateAndCity(cityModel.getName(), stateId)).thenReturn(true);
+        when(locationPersistencePort.getAllLocations(page, size, sortDirection)).thenReturn(locationModelList);
 
-        assertThrows(LocationAlreadyExistException.class, () -> locationUseCase.saveCity(cityModel, stateId));
+        List<LocationModel> result = locationUseCase.getLocations(null, null, page, size, sortDirection);
+
+        assertEquals(locationModelList, result);
     }
 
-    //State
     @Test
-    void When_SaveLocation_Expect_Success() {
-        CityModel cityModel = LocationTestDataFactory.createValidCityModel();
-        StateModel stateModel = LocationTestDataFactory.createValidStateModel();
+    void saveLocation_ShouldThrowException_WhenCityNotFound() {
+        Long cityId = 1L;
+        String neighborhood = "Test Neighborhood";
 
-        locationUseCase.saveLocation(cityModel, stateModel);
+        when(cityUseCase.getCityById(cityId)).thenReturn(null);
+
+        assertThrows(CityNotFoundException.class, () -> locationUseCase.saveLocation(cityId, neighborhood));
+    }
+
+    @Test
+    void saveLocation_ShouldSaveLocation_WhenCityFound() {
+        Long cityId = 1L;
+        String neighborhood = "Test Neighborhood";
+        CityModel city = LocationTestDataFactory.createValidCityModel();
+
+        when(cityUseCase.getCityById(cityId)).thenReturn(city);
+
+        locationUseCase.saveLocation(cityId, neighborhood);
 
         ArgumentCaptor<LocationModel> locationCaptor = ArgumentCaptor.forClass(LocationModel.class);
         verify(locationPersistencePort).saveLocation(locationCaptor.capture());
 
         LocationModel capturedLocation = locationCaptor.getValue();
-        assertEquals(cityModel, capturedLocation.getCity());
-        assertEquals(stateModel, capturedLocation.getState());
+        assertEquals(city, capturedLocation.getCity());
+        assertEquals(neighborhood, capturedLocation.getNeighborhood());
     }
 
     @Test
-    void When_GetAllLocationsByCityNameOrStateName_Expect_PaginationValidatorCalled() {
-
-        searchBy = "city";
-
+    void getLocations_ShouldCallPaginationValidator() {
         try (MockedStatic<PaginationValidator> mockedValidator = mockStatic(PaginationValidator.class)) {
-            List<LocationModel> locationModelList = List.of(new LocationModel());
-            when(locationPersistencePort.getAllLocationsByCityName(name, page, size, searchBy, sortDirection)).thenReturn(locationModelList);
+            List<LocationModel> locationModelList = List.of(LocationTestDataFactory.createValidLocationModel());
+            when(locationPersistencePort.getAllLocations(page, size, sortDirection)).thenReturn(locationModelList);
 
-            locationUseCase.getAllLocationsByCityNameOrStateName(name, searchBy, page, size, sortDirection);
+            locationUseCase.getLocations(null, null, page, size, sortDirection);
 
-            mockedValidator.verify(() -> PaginationValidator.validatePaginationParameters(page, size, searchBy, sortDirection));
+            mockedValidator.verify(() -> PaginationValidator.validatePaginationParameters(page, size, sortDirection));
         }
     }
-
-    @Test
-    void When_GetAllLocationsByCityName_Expect_Success() {
-        searchBy = "city";
-        List<LocationModel> locationModelList = List.of(new LocationModel());
-
-        when(locationPersistencePort.getAllLocationsByCityName(name, page, size, searchBy, sortDirection)).thenReturn(locationModelList);
-
-        List<LocationModel> result = locationUseCase.getAllLocationsByCityNameOrStateName(name, searchBy, page, size, sortDirection);
-
-        assertEquals(locationModelList, result);
-    }
-
-    @Test
-    void When_GetAllLocationsByStateName_Expect_Success() {
-        searchBy = "state";
-        List<LocationModel> locationModelList = List.of(new LocationModel());
-
-        when(locationPersistencePort.getAllLocationsByStateName(name, page, size, searchBy, sortDirection)).thenReturn(locationModelList);
-
-        List<LocationModel> result = locationUseCase.getAllLocationsByCityNameOrStateName(name, searchBy, page, size, sortDirection);
-
-        assertEquals(locationModelList, result);
-    }
-
-    @Test
-    void When_GetAllLocationsByCityNameOrStateName_Expect_InvalidSearchByException() {
-        searchBy = "invalid";
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> locationUseCase.getAllLocationsByCityNameOrStateName(name, searchBy, page, size, sortDirection)
-        );
-
-        assertEquals(ErrorMessages.INVALID_SEARCH_BY, exception.getMessage());
-    }
-
-    @Test
-    void When_GetAllLocationsByCityNameOrStateName_Expect_LocationNotFoundException() {
-
-        searchBy = "city";
-
-        when(locationPersistencePort.getAllLocationsByCityName(name, page, size, searchBy, sortDirection)).thenReturn(List.of());
-
-        LocationNotFoundException exception = assertThrows(
-                LocationNotFoundException.class,
-                () -> locationUseCase.getAllLocationsByCityNameOrStateName(name, searchBy, page, size, sortDirection)
-        );
-
-        assertEquals(ErrorMessages.LOCATION_NOT_FOUND, exception.getMessage());
-    }
-
-
 }

@@ -1,15 +1,27 @@
 package com.powerup.house_microservice.domain.model;
 
 public class LocationModel {
+
+    private Long id;
     private CityModel city;
-    private StateModel state;
+
+    private String neighborhood;
 
     public LocationModel() {
     }
 
-    public LocationModel(CityModel city, StateModel state) {
+    public LocationModel(Long id, CityModel city, String neighborhood) {
+        this.id = id;
         this.city = city;
-        this.state = state;
+        this.neighborhood = neighborhood;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public CityModel getCity() {
@@ -20,11 +32,11 @@ public class LocationModel {
         this.city = city;
     }
 
-    public StateModel getState() {
-        return state;
+    public String getNeighborhood() {
+        return neighborhood;
     }
 
-    public void setState(StateModel state) {
-        this.state = state;
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
     }
 }

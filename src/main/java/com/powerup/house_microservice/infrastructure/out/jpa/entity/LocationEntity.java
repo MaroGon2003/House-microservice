@@ -3,8 +3,6 @@ package com.powerup.house_microservice.infrastructure.out.jpa.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "location")
 @NoArgsConstructor
@@ -13,32 +11,14 @@ import java.io.Serializable;
 @Setter
 public class LocationEntity {
 
-    @EmbeddedId
-    private LocationId locationId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToOne
-    @MapsId("idCity")
-    @JoinColumn(name = "city_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "city_id", nullable = false, unique = false)
     private CityEntity city;
 
-    @ManyToOne
-    @MapsId("idState")
-    @JoinColumn(name = "state_id")
-    private StateEntity state;
-
-
-    @Embeddable
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class LocationId implements Serializable{
-
-        @Column(name = "city_id")
-        private Long idCity;
-
-        @Column(name = "state_id")
-        private Long idState;
-
-    }
+    private String neighborhood;
 
 }

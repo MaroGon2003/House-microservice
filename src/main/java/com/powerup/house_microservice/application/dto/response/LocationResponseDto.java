@@ -4,16 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationResponseDto {
 
-
-    StateResponseDto state;
-    List<CityResponseDto> city;
-
+    private long id;
+    private StateResponseDto state;
+    private CityResponseDto city;
+    private String neighborhood;
 
 }

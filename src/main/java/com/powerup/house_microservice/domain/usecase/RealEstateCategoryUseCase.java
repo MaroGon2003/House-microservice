@@ -2,11 +2,11 @@ package com.powerup.house_microservice.domain.usecase;
 
 import com.powerup.house_microservice.domain.api.IRealEstateCategoryServicePort;
 import com.powerup.house_microservice.domain.exception.RealEstateCategoryAlreadyExistException;
-import com.powerup.house_microservice.domain.exception.RealEstateCategoryNotFoundException;
 import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
 import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
 import com.powerup.house_microservice.domain.utils.ErrorMessages;
 import com.powerup.house_microservice.domain.utils.PaginationValidator;
+import com.powerup.house_microservice.domain.utils.RealEstateValidationUtil;
 
 import java.util.List;
 
@@ -25,6 +25,9 @@ public class RealEstateCategoryUseCase implements IRealEstateCategoryServicePort
             throw new IllegalArgumentException(ErrorMessages.REAL_ESTATE_CATEGORY_NOT_NULL);
         }
 
+        RealEstateValidationUtil.validateName(realEstateCategory.getName());
+        RealEstateValidationUtil.validateDescription(realEstateCategory.getDescription());
+
         if(realEstateCategoryPersistencePort.existsRealEstateCategoryByName(realEstateCategory.getName())){
             throw new RealEstateCategoryAlreadyExistException(ErrorMessages.REAL_ESTATE_CATEGORY_ALREADY_EXISTS);
         }
@@ -33,17 +36,11 @@ public class RealEstateCategoryUseCase implements IRealEstateCategoryServicePort
 
     }
     @Override
-    public List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, String sortBy, String sortDirection) {
+    public List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, String sortDirection) {
 
-        PaginationValidator.validatePaginationParameters(page, size, sortBy, sortDirection);
+        PaginationValidator.validatePaginationParameters(page, size, sortDirection);
 
-        List<RealEstateCategoryModel> realEstateCategoryModelList = realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortBy, sortDirection);
-
-        if (realEstateCategoryModelList.isEmpty()) {
-            throw new RealEstateCategoryNotFoundException(ErrorMessages.REAL_ESTATE_CATEGORY_NOT_FOUND);
-        }
-
-        return realEstateCategoryModelList;
+        return realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortDirection);
 
     }
 }
