@@ -17,8 +17,7 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface ILocationResponseMapper {
 
-    @Mapping(source = "state", target = "state")
-    @Mapping(source = "city", target = "city")
+    @Mapping(source = "city.state", target = "state")
     LocationResponseDto locationModelToLocationResponseDto(LocationModel locationModel);
 
     List<LocationResponseDto> toLocationResponseDtoList(List<LocationModel> locationModelList);

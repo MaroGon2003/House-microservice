@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StateResponseDto {
-    private Long id;
+
     private String name;
 
 }

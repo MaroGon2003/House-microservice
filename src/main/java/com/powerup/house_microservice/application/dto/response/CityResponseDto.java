@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CityResponseDto {
 
-    private Long id;
     private String name;
 
 }

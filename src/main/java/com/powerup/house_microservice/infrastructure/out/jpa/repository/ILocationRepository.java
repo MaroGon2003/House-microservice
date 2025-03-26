@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ILocationRepository extends JpaRepository<LocationEntity, LocationEntity.LocationId> {
+public interface ILocationRepository extends JpaRepository<LocationEntity, Long> {
 
-    boolean existsByCityNameIgnoreCaseAndStateId(String cityName, Long stateId);
+    boolean existsByCityNameIgnoreCaseAndCityStateId(String cityName, Long stateId);
     List<LocationEntity> findAllByCityNameIgnoreCase(String cityName, Pageable pageable);
-    List<LocationEntity> findAllByStateNameIgnoreCase(String stateName, Pageable pageable);
+    List<LocationEntity> findAllByCityStateNameIgnoreCase(String stateName, Pageable pageable);
+
+    List<LocationEntity> findAllByCityStateNameIgnoreCaseAndCityNameIgnoreCase(String stateName, String cityName, Pageable pageable);
 
 }

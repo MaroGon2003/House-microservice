@@ -7,6 +7,6 @@ import java.util.List;
 public interface IRealEstateCategoryServicePort {
 
     void saveRealEstateCategory(RealEstateCategoryModel realEstateCategory);
-    List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, String sortBy, String sortDirection);
+    List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, String sortDirection);
 
 }

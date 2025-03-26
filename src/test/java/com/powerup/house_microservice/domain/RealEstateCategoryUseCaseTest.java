@@ -1,7 +1,6 @@
 package com.powerup.house_microservice.domain;
 
 import com.powerup.house_microservice.domain.exception.RealEstateCategoryAlreadyExistException;
-import com.powerup.house_microservice.domain.exception.RealEstateCategoryNotFoundException;
 import com.powerup.house_microservice.domain.factory.RealEstateCategoryTestDataFactory;
 import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
 import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
@@ -33,14 +32,12 @@ class RealEstateCategoryUseCaseTest {
 
     private int page;
     private int size;
-    private String sortBy;
     private String sortDirection;
 
     @BeforeEach
     void setup() {
         page = 0;
         size = 10;
-        sortBy = "name";
         sortDirection = "asc";
     }
 
@@ -67,28 +64,22 @@ class RealEstateCategoryUseCaseTest {
     void When_GetAllRealEstateCategories_Expect_Success() {
 
         List<RealEstateCategoryModel> realEstateCategoryModelList = RealEstateCategoryTestDataFactory.createRealEstateCategoryModelList();
-        when(realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortBy, sortDirection)).thenReturn(realEstateCategoryModelList);
+        when(realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortDirection)).thenReturn(realEstateCategoryModelList);
 
-        List<RealEstateCategoryModel> realEstateCategoryModelListResult = realEstateCategoryUseCase.getAllRealEstateCategories(page, size, sortBy, sortDirection);
+        List<RealEstateCategoryModel> realEstateCategoryModelListResult = realEstateCategoryUseCase.getAllRealEstateCategories(page, size, sortDirection);
 
         assertEquals(realEstateCategoryModelList, realEstateCategoryModelListResult);
-    }
-
-    @Test
-    void When_GetAllRealEstateCategories_Expect_RealEstateCategoryNotFoundException() {
-        when(realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortBy, sortDirection)).thenReturn(List.of());
-        assertThrows(RealEstateCategoryNotFoundException.class, () -> realEstateCategoryUseCase.getAllRealEstateCategories(page, size, sortBy, sortDirection));
     }
 
     @Test
     void When_GetAllRealEstateCategories_Expect_PaginationValidatorCalled() {
         try (MockedStatic<PaginationValidator> mockedValidator = mockStatic(PaginationValidator.class)) {
             List<RealEstateCategoryModel> realEstateCategoryModelList = RealEstateCategoryTestDataFactory.createRealEstateCategoryModelList();
-            when(realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortBy, sortDirection)).thenReturn(realEstateCategoryModelList);
+            when(realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortDirection)).thenReturn(realEstateCategoryModelList);
 
-            realEstateCategoryUseCase.getAllRealEstateCategories(page, size, sortBy, sortDirection);
+            realEstateCategoryUseCase.getAllRealEstateCategories(page, size, sortDirection);
 
-            mockedValidator.verify(() -> PaginationValidator.validatePaginationParameters(page, size, sortBy, sortDirection));
+            mockedValidator.verify(() -> PaginationValidator.validatePaginationParameters(page, size, sortDirection));
         }
     }
 

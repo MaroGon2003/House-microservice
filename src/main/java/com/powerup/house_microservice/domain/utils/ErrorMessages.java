@@ -19,6 +19,7 @@ public class ErrorMessages {
     public static final String LOCATION_ALREADY_EXIST = "Location already exist";
     public static final String LOCATION_NOT_FOUND = "Location not found";
     public static final String INVALID_SEARCH_BY = "Invalid search by";
+    public static final String CITY_NOT_FOUND = "City not found";
 
     //PAGINATION MESSAGES CONSTANTS VALIDATION
     public static final String UTILITY_CLASS_INSTANTIATION_ERROR = "This is a utility class and cannot be instantiated";

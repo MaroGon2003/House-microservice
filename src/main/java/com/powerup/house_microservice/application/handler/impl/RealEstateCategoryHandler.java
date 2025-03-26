@@ -26,9 +26,9 @@ public class RealEstateCategoryHandler implements IRealEstateCategoryHandler {
     }
 
     @Override
-    public PagedResult<RealEstateCategoryResponseDto> getAllRealEstateCategories(int page, int size, String sortBy, String sortDirection) {
+    public PagedResult<RealEstateCategoryResponseDto> getAllRealEstateCategories(int page, int size, String sortDirection) {
 
-        List<RealEstateCategoryResponseDto> realEstateCategoryResponseDtoList = realEstateCategoryResponseMapper.toRealEstateCategoryResponseDtoList(realEstateCategoryServicePort.getAllRealEstateCategories(page, size, sortBy, sortDirection));
+        List<RealEstateCategoryResponseDto> realEstateCategoryResponseDtoList = realEstateCategoryResponseMapper.toRealEstateCategoryResponseDtoList(realEstateCategoryServicePort.getAllRealEstateCategories(page, size, sortDirection));
         return new PagedResult<>(realEstateCategoryResponseDtoList, page, size);
 
     }
