@@ -63,4 +63,5 @@ class CityUseCaseTest {
 
         assertNotNull(result);
     }
+
 }
