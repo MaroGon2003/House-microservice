@@ -27,7 +27,7 @@ public class CityUseCase implements ICityServicePort {
         StateModel state = stateUseCase.getStateById(stateId);
 
         if(state == null){
-            throw new StateNotFoundException(ErrorMessages.STATE_NOT_FOUND);
+            throw new StateNotFoundException(ErrorMessages.STATE_NOT_FOUND, stateId);
         }
 
         city.setState(state);

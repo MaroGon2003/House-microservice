@@ -3,9 +3,7 @@ package com.powerup.house_microservice.domain.utils;
 public class MessageConstants {
 
     //private constructor to prevent instantiation
-    private MessageConstants() {
-        throw new UnsupportedOperationException(ErrorMessages.UTILITY_CLASS_INSTANTIATION_ERROR);
-    }
+    private MessageConstants() {}
 
     //LOCATION
     public static final String SEARCH_BY_CITY = "city";

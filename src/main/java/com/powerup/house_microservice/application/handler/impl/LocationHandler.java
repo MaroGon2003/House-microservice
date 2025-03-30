@@ -18,9 +18,9 @@ public class LocationHandler implements ILocationHandler {
     private final ILocationResponseMapper locationResponseMapper;
 
     @Override
-    public PagedResult<LocationResponseDto> getLocations(String stateName, String cityName, int page, int size, String sortDirection) {
+    public PagedResult<LocationResponseDto> getLocations(String stateName, String cityName, int page, int size, boolean ascending) {
         return new PagedResult<>(locationResponseMapper.toLocationResponseDtoList(
-                locationServicePort.getLocations(stateName, cityName, page, size, sortDirection)
+                locationServicePort.getLocations(stateName, cityName, page, size, ascending)
         ), page, size);
     }
 

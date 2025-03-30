@@ -33,7 +33,7 @@ public class StateJpaAdapter implements IStatePersistencePort {
 
     @Override
     public StateModel getStateById(Long id) {
-        return stateEntityMapper.toStateModel(stateRepository.findById(id).orElseThrow());
+        return stateEntityMapper.toStateModel(stateRepository.findById(id).orElse(null));
     }
 
 }

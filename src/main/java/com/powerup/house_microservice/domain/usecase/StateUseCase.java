@@ -8,6 +8,8 @@ import com.powerup.house_microservice.domain.spi.IStatePersistencePort;
 import com.powerup.house_microservice.domain.utils.ErrorMessages;
 import com.powerup.house_microservice.domain.utils.StateCityValidationUtils;
 
+import java.util.Optional;
+
 public class StateUseCase implements IStateServicePort {
 
     private final IStatePersistencePort statePersistencePort;
@@ -23,7 +25,7 @@ public class StateUseCase implements IStateServicePort {
         StateCityValidationUtils.validateDescription(state.getDescription());
 
         if(statePersistencePort.existStateByName(state.getName())){
-            throw new StateAlreadyExistException(ErrorMessages.STATE_ALREADY_EXIST);
+            throw new StateAlreadyExistException(ErrorMessages.STATE_ALREADY_EXIST, state.getName());
         }
 
         statePersistencePort.create(state);
@@ -32,13 +34,9 @@ public class StateUseCase implements IStateServicePort {
 
     public StateModel getStateById(Long id){
 
-        StateModel state = statePersistencePort.getStateById(id);
+        Optional<StateModel> state = Optional.ofNullable(statePersistencePort.getStateById(id));
 
-        if(state == null){
-            throw new StateNotFoundException(ErrorMessages.STATE_NOT_FOUND);
-        }
-
-        return state;
+        return state.orElseThrow(() -> new StateNotFoundException(ErrorMessages.STATE_NOT_FOUND, id));
 
     }
 

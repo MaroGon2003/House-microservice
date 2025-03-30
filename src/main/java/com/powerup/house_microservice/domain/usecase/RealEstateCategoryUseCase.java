@@ -5,6 +5,7 @@ import com.powerup.house_microservice.domain.exception.RealEstateCategoryAlready
 import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
 import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
 import com.powerup.house_microservice.domain.utils.ErrorMessages;
+import com.powerup.house_microservice.domain.utils.MessageConstants;
 import com.powerup.house_microservice.domain.utils.PaginationValidator;
 import com.powerup.house_microservice.domain.utils.RealEstateValidationUtil;
 
@@ -29,14 +30,16 @@ public class RealEstateCategoryUseCase implements IRealEstateCategoryServicePort
         RealEstateValidationUtil.validateDescription(realEstateCategory.getDescription());
 
         if(realEstateCategoryPersistencePort.existsRealEstateCategoryByName(realEstateCategory.getName())){
-            throw new RealEstateCategoryAlreadyExistException(ErrorMessages.REAL_ESTATE_CATEGORY_ALREADY_EXISTS);
+            throw new RealEstateCategoryAlreadyExistException(ErrorMessages.REAL_ESTATE_CATEGORY_ALREADY_EXISTS, realEstateCategory.getName());
         }
 
         realEstateCategoryPersistencePort.saveRealEstateCategory(realEstateCategory);
 
     }
     @Override
-    public List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, String sortDirection) {
+    public List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, boolean ascending) {
+
+        String sortDirection = ascending ? MessageConstants.ASC : MessageConstants.DESC;
 
         PaginationValidator.validatePaginationParameters(page, size, sortDirection);
 

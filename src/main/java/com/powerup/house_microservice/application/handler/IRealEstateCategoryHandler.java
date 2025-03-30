@@ -7,6 +7,6 @@ import com.powerup.house_microservice.application.utils.PagedResult;
 public interface IRealEstateCategoryHandler {
     void saveRealEstateCategory(RealEstateCategoryRequestDto realEstateCategoryRequestDto);
 
-    PagedResult<RealEstateCategoryResponseDto> getAllRealEstateCategories(int page, int size, String sortDirection);
+    PagedResult<RealEstateCategoryResponseDto> getAllRealEstateCategories(int page, int size, boolean ascending);
 
 }

@@ -4,7 +4,6 @@ import com.powerup.house_microservice.application.dto.request.LocationRequestDto
 import com.powerup.house_microservice.application.dto.response.LocationResponseDto;
 import com.powerup.house_microservice.application.handler.ILocationHandler;
 import com.powerup.house_microservice.application.utils.PagedResult;
-import com.powerup.house_microservice.infrastructure.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -50,11 +49,7 @@ public class LocationController {
                                                                          @RequestParam(defaultValue = "10") int size,
                                                                          @RequestParam(defaultValue = "true") boolean ascending) {
 
-        String sortDirection = ascending ? Constants.ACS : Constants.DESC;
-
-        PagedResult<LocationResponseDto> result = locationHandler.getLocations(stateName, cityName, page, size, sortDirection);
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(locationHandler.getLocations(stateName, cityName, page, size, ascending));
     }
 
 }

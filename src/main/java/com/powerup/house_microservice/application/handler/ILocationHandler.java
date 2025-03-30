@@ -7,7 +7,7 @@ import com.powerup.house_microservice.application.utils.PagedResult;
 
 public interface ILocationHandler {
 
-    PagedResult<LocationResponseDto> getLocations(String stateName, String cityName, int page, int size, String sortDirection);
+    PagedResult<LocationResponseDto> getLocations(String stateName, String cityName, int page, int size, boolean ascending);
 
     void create(LocationRequestDto locationRequestDto);
 

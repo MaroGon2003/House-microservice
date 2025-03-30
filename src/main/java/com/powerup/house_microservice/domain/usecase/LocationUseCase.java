@@ -6,9 +6,11 @@ import com.powerup.house_microservice.domain.model.CityModel;
 import com.powerup.house_microservice.domain.model.LocationModel;
 import com.powerup.house_microservice.domain.spi.ILocationPersistencePort;
 import com.powerup.house_microservice.domain.utils.ErrorMessages;
+import com.powerup.house_microservice.domain.utils.MessageConstants;
 import com.powerup.house_microservice.domain.utils.PaginationValidator;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LocationUseCase implements ILocationServicePort {
 
@@ -21,7 +23,9 @@ public class LocationUseCase implements ILocationServicePort {
     }
 
     @Override
-    public List<LocationModel> getLocations(String stateName, String cityName, int page, int size, String sortDirection) {
+    public List<LocationModel> getLocations(String stateName, String cityName, int page, int size, boolean ascending) {
+
+        String sortDirection = ascending ? MessageConstants.ASC : MessageConstants.DESC;
 
         PaginationValidator.validatePaginationParameters(page, size, sortDirection);
 
@@ -44,11 +48,8 @@ public class LocationUseCase implements ILocationServicePort {
     @Override
     public void saveLocation(Long cityId, String neighborhood) {
 
-        CityModel city = cityUseCase.getCityById(cityId);
-
-        if (city == null) {
-            throw new CityNotFoundException(ErrorMessages.CITY_NOT_FOUND);
-        }
+        CityModel city = Optional.ofNullable(cityUseCase.getCityById(cityId))
+                .orElseThrow(() -> new CityNotFoundException(ErrorMessages.CITY_NOT_FOUND,cityId));
 
         LocationModel location = new LocationModel();
         location.setCity(city);
