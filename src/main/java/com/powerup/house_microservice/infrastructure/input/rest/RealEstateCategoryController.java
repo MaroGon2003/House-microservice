@@ -4,7 +4,6 @@ import com.powerup.house_microservice.application.dto.request.RealEstateCategory
 import com.powerup.house_microservice.application.dto.response.RealEstateCategoryResponseDto;
 import com.powerup.house_microservice.application.handler.IRealEstateCategoryHandler;
 import com.powerup.house_microservice.application.utils.PagedResult;
-import com.powerup.house_microservice.infrastructure.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,7 +33,8 @@ public class RealEstateCategoryController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Category created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request body", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request body"),
+            @ApiResponse(responseCode = "409", description = "Category already exists"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping
@@ -60,9 +60,7 @@ public class RealEstateCategoryController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "true") boolean ascending) {
 
-        String sortDirection = ascending ? Constants.ACS : Constants.DESC;
-
-        PagedResult<RealEstateCategoryResponseDto> result = realEstateCategoryHandler.getAllRealEstateCategories(page, size, sortDirection);
+        PagedResult<RealEstateCategoryResponseDto> result = realEstateCategoryHandler.getAllRealEstateCategories(page, size, ascending);
 
         return ResponseEntity.ok(result);
     }

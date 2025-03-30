@@ -1,9 +1,15 @@
 package com.powerup.house_microservice.application.utils;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PagedResult<T> {
 
+    @JsonIgnore
     private final List<T> content;
     private final int page;
     private final int size;
@@ -18,8 +24,12 @@ public class PagedResult<T> {
         this.totalPages = (int) Math.ceil((double) totalElements / size);
     }
 
-    public List<T> getContent() {
-        return content;
+    @JsonAnyGetter
+    public Map<String, Object> getContent() {
+        Map<String, Object> contentMap = new HashMap<>();
+        String propertyName = ContentDynamic.getPropertyName(content.get(0).getClass());
+        contentMap.put(propertyName, content);
+        return contentMap;
     }
 
     public int getPage() {

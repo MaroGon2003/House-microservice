@@ -36,9 +36,7 @@ public class CityController {
     })
     @PostMapping("/states/{stateId}/cities")
     public ResponseEntity<Void> createCity(@RequestBody @Valid CityRequestDto city, @PathVariable Long stateId) {
-
         cityHandler.create(city, stateId);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

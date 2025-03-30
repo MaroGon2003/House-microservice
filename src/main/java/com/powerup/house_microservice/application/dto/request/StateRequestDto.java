@@ -20,7 +20,6 @@ public class StateRequestDto {
 
     @NotBlank
     @Size(min = 2, max = 120, message = ValidationMessages.DESCRIPTION_SIZE_LOCATION)
-
     private String description;
 
 }

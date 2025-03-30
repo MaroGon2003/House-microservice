@@ -5,7 +5,10 @@ import com.powerup.house_microservice.domain.factory.RealEstateCategoryTestDataF
 import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
 import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
 import com.powerup.house_microservice.domain.usecase.RealEstateCategoryUseCase;
+import com.powerup.house_microservice.domain.utils.ErrorMessages;
 import com.powerup.house_microservice.domain.utils.PaginationValidator;
+import com.powerup.house_microservice.domain.utils.RealEstateValidationUtil;
+import com.powerup.house_microservice.domain.utils.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,13 +35,15 @@ class RealEstateCategoryUseCaseTest {
 
     private int page;
     private int size;
+    private boolean ascending;
     private String sortDirection;
 
     @BeforeEach
     void setup() {
         page = 0;
         size = 10;
-        sortDirection = "asc";
+        ascending = true;
+        sortDirection = "ASC";
     }
 
     @Test
@@ -66,7 +71,7 @@ class RealEstateCategoryUseCaseTest {
         List<RealEstateCategoryModel> realEstateCategoryModelList = RealEstateCategoryTestDataFactory.createRealEstateCategoryModelList();
         when(realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortDirection)).thenReturn(realEstateCategoryModelList);
 
-        List<RealEstateCategoryModel> realEstateCategoryModelListResult = realEstateCategoryUseCase.getAllRealEstateCategories(page, size, sortDirection);
+        List<RealEstateCategoryModel> realEstateCategoryModelListResult = realEstateCategoryUseCase.getAllRealEstateCategories(page, size, ascending);
 
         assertEquals(realEstateCategoryModelList, realEstateCategoryModelListResult);
     }
@@ -77,10 +82,90 @@ class RealEstateCategoryUseCaseTest {
             List<RealEstateCategoryModel> realEstateCategoryModelList = RealEstateCategoryTestDataFactory.createRealEstateCategoryModelList();
             when(realEstateCategoryPersistencePort.getAllRealEstateCategories(page, size, sortDirection)).thenReturn(realEstateCategoryModelList);
 
-            realEstateCategoryUseCase.getAllRealEstateCategories(page, size, sortDirection);
+            realEstateCategoryUseCase.getAllRealEstateCategories(page, size, ascending);
 
             mockedValidator.verify(() -> PaginationValidator.validatePaginationParameters(page, size, sortDirection));
         }
+    }
+
+    @Test
+    void validateName_ShouldThrowException_WhenNameIsNull() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                RealEstateValidationUtil.validateName(null)
+        );
+        assertEquals(ErrorMessages.NAME_CANNOT_BE_BLANK, exception.getMessage());
+    }
+
+    @Test
+    void validateName_ShouldThrowException_WhenNameIsBlank() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                RealEstateValidationUtil.validateName("")
+        );
+        assertEquals(ErrorMessages.NAME_CANNOT_BE_BLANK, exception.getMessage());
+    }
+
+    @Test
+    void validateName_ShouldThrowException_WhenNameIsTooShort() {
+        String shortName = "a"; // Assuming NAME_MIN_LENGTH is greater than 1
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                RealEstateValidationUtil.validateName(shortName)
+        );
+        assertEquals(ErrorMessages.NAME_LENGTH_ERROR, exception.getMessage());
+    }
+
+    @Test
+    void validateName_ShouldThrowException_WhenNameIsTooLong() {
+        String longName = "a".repeat(ValidationConstants.NAME_MAX_LENGTH + 1);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                RealEstateValidationUtil.validateName(longName)
+        );
+        assertEquals(ErrorMessages.NAME_LENGTH_ERROR, exception.getMessage());
+    }
+
+    @Test
+    void validateName_ShouldNotThrowException_WhenNameIsValid() {
+        String validName = "Valid Name";
+        assertDoesNotThrow(() -> RealEstateValidationUtil.validateName(validName));
+    }
+
+    @Test
+    void validateDescription_ShouldThrowException_WhenDescriptionIsNull() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                RealEstateValidationUtil.validateDescription(null)
+        );
+        assertEquals(ErrorMessages.DESCRIPTION_CANNOT_BE_BLANK, exception.getMessage());
+    }
+
+    @Test
+    void validateDescription_ShouldThrowException_WhenDescriptionIsBlank() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                RealEstateValidationUtil.validateDescription("")
+        );
+        assertEquals(ErrorMessages.DESCRIPTION_CANNOT_BE_BLANK, exception.getMessage());
+    }
+
+    @Test
+    void validateDescription_ShouldThrowException_WhenDescriptionIsTooShort() {
+        String shortDescription = "a"; // Assuming DESCRIPTION_MIN_LENGTH is greater than 1
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                RealEstateValidationUtil.validateDescription(shortDescription)
+        );
+        assertEquals(ErrorMessages.DESCRIPTION_LENGTH_ERROR, exception.getMessage());
+    }
+
+    @Test
+    void validateDescription_ShouldThrowException_WhenDescriptionIsTooLong() {
+        String longDescription = "a".repeat(ValidationConstants.DESCRIPTION_MAX_LENGTH + 1);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                RealEstateValidationUtil.validateDescription(longDescription)
+        );
+        assertEquals(ErrorMessages.DESCRIPTION_LENGTH_ERROR, exception.getMessage());
+    }
+
+    @Test
+    void validateDescription_ShouldNotThrowException_WhenDescriptionIsValid() {
+        String validDescription = "Valid Description";
+        assertDoesNotThrow(() -> RealEstateValidationUtil.validateDescription(validDescription));
     }
 
 }

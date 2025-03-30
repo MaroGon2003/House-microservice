@@ -4,7 +4,6 @@ public class LocationModel {
 
     private Long id;
     private CityModel city;
-
     private String neighborhood;
 
     public LocationModel() {

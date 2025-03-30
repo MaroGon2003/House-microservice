@@ -2,24 +2,23 @@ package com.powerup.house_microservice.domain.utils;
 
 public class StateCityValidationUtils {
 
-    private StateCityValidationUtils() {
-    }
+    private StateCityValidationUtils() {}
 
     public static void validateName(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Name cannot be blank");
+            throw new IllegalArgumentException(ErrorMessages.NAME_CANNOT_BE_BLANK);
         }
-        if (name.length() < 2 || name.length() > 50) {
-            throw new IllegalArgumentException("Name must be between 2 and 50 characters");
+        if (name.length() < ValidationConstants.NAME_MIN_LENGTH || name.length() > ValidationConstants.NAME_MAX_LENGTH) {
+            throw new IllegalArgumentException(ErrorMessages.NAME_LENGTH_ERROR);
         }
     }
 
     public static void validateDescription(String description) {
         if (description == null || description.isBlank()) {
-            throw new IllegalArgumentException("Description cannot be blank");
+            throw new IllegalArgumentException(ErrorMessages.DESCRIPTION_CANNOT_BE_BLANK);
         }
-        if (description.length() < 2 || description.length() > 120) {
-            throw new IllegalArgumentException("Description must be between 2 and 120 characters");
+        if (description.length() < ValidationConstants.DESCRIPTION_MIN_LENGTH || description.length() > ValidationConstants.DESCRIPTION_MAX_LENGTH_STATE_CITY) {
+            throw new IllegalArgumentException(ErrorMessages.DESCRIPTION_LENGTH_ERROR_STATE_CITY);
         }
     }
 }
