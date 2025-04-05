@@ -4,6 +4,7 @@ import com.powerup.house_microservice.application.dto.request.RealEstateCategory
 import com.powerup.house_microservice.application.dto.response.RealEstateCategoryResponseDto;
 import com.powerup.house_microservice.application.handler.IRealEstateCategoryHandler;
 import com.powerup.house_microservice.application.utils.PagedResult;
+import com.powerup.house_microservice.infrastructure.utils.InfrastructureConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,8 +18,8 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/real-estate-categories")
-@Tag(name = "Real Estate Categories", description = "Endpoints for managing real estate categories")
+@RequestMapping(InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_REQUEST_MAPPING)
+@Tag(name = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_TAG_NAME, description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_TAG_DESCRIPTION)
 public class RealEstateCategoryController {
 
     private final IRealEstateCategoryHandler realEstateCategoryHandler;
@@ -28,41 +29,35 @@ public class RealEstateCategoryController {
     }
 
     @Operation(
-            summary = "Create a new real estate category",
-            description = "Creates a new real estate category and returns a 201 Created response."
+            summary = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_OPERATION_CREATE_SUMMARY,
+            description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_OPERATION_CREATE_DESCRIPTION
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Category created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request body"),
-            @ApiResponse(responseCode = "409", description = "Category already exists"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_201, description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_RESPONSE_201_DESCRIPTION),
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_400, description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_RESPONSE_400_DESCRIPTION),
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_500, description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_RESPONSE_500_DESCRIPTION)
     })
     @PostMapping
     public ResponseEntity<String> createRealEstateCategory(@RequestBody @Valid RealEstateCategoryRequestDto realEstateCategoryRequestDto) {
-
         realEstateCategoryHandler.saveRealEstateCategory(realEstateCategoryRequestDto);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Category created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Operation(
-            summary = "Get all real estate categories",
-            description = "Retrieves a paginated list of all real estate categories, with sorting options."
+            summary = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_OPERATION_GET_SUMMARY,
+            description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_OPERATION_GET_DESCRIPTION
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of categories retrieved successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request parameters", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_200, description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_RESPONSE_200_DESCRIPTION),
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_400, description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_RESPONSE_400_DESCRIPTION, content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_500, description = InfrastructureConstants.REAL_ESTATE_CATEGORY_CONTROLLER_RESPONSE_500_DESCRIPTION)
     })
     @GetMapping
     public ResponseEntity<PagedResult<RealEstateCategoryResponseDto>> getAllRealEstateCategories(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "true") boolean ascending) {
-
+            @RequestParam(defaultValue = InfrastructureConstants.DEFAULT_PAGE) int page,
+            @RequestParam(defaultValue = InfrastructureConstants.DEFAULT_SIZE) int size,
+            @RequestParam(defaultValue = InfrastructureConstants.DEFAULT_ASCENDING) boolean ascending) {
         PagedResult<RealEstateCategoryResponseDto> result = realEstateCategoryHandler.getAllRealEstateCategories(page, size, ascending);
-
         return ResponseEntity.ok(result);
     }
-
 }

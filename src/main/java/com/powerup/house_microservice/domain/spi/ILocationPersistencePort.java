@@ -14,6 +14,6 @@ public interface ILocationPersistencePort {
     List<LocationModel> getAllLocationsByStateName(String stateName, int page, int size, String sortDirection);
     List<LocationModel> getAllLocationsByStateAndCityName(String stateName, String cityName, int page, int size, String sortDirection);
     List<LocationModel> getAllLocations(int page, int size, String sortDirection);
-
+    LocationModel getLocationById(Long locationId);
 
 }

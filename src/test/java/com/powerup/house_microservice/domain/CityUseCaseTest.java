@@ -1,12 +1,12 @@
 package com.powerup.house_microservice.domain;
 
+import com.powerup.house_microservice.domain.api.IStateServicePort;
 import com.powerup.house_microservice.domain.exception.StateNotFoundException;
 import com.powerup.house_microservice.domain.factory.CityTestDataFactory;
 import com.powerup.house_microservice.domain.model.CityModel;
 import com.powerup.house_microservice.domain.model.StateModel;
 import com.powerup.house_microservice.domain.spi.ICityPersistencePort;
 import com.powerup.house_microservice.domain.usecase.CityUseCase;
-import com.powerup.house_microservice.domain.usecase.StateUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +24,7 @@ class CityUseCaseTest {
     private ICityPersistencePort cityPersistencePort;
 
     @Mock
-    private StateUseCase stateUseCase;
+    private IStateServicePort stateServicePort;
 
     @InjectMocks
     private CityUseCase cityUseCase;
@@ -34,7 +34,7 @@ class CityUseCaseTest {
         CityModel city = CityTestDataFactory.createCityModel();
         Long stateId = 1L;
 
-        when(stateUseCase.getStateById(stateId)).thenReturn(null);
+        when(stateServicePort.getStateById(stateId)).thenReturn(null);
 
         assertThrows(StateNotFoundException.class, () -> cityUseCase.create(city, stateId));
     }
@@ -45,7 +45,7 @@ class CityUseCaseTest {
         StateModel state = CityTestDataFactory.createStateModel();
         Long stateId = state.getId();
 
-        when(stateUseCase.getStateById(stateId)).thenReturn(state);
+        when(stateServicePort.getStateById(stateId)).thenReturn(state);
 
         cityUseCase.create(city, stateId);
 

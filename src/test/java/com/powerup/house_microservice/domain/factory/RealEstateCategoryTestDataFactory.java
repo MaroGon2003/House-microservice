@@ -7,7 +7,12 @@ import java.util.List;
 public class RealEstateCategoryTestDataFactory {
 
     public static RealEstateCategoryModel createRealEstateCategoryModel() {
-        return new RealEstateCategoryModel(1L, "name", "description");
+
+        RealEstateCategoryModel realEstateCategoryModel = new RealEstateCategoryModel();
+        realEstateCategoryModel.setId(1L);
+        realEstateCategoryModel.setName("name");
+        realEstateCategoryModel.setDescription("description");
+        return realEstateCategoryModel;
     }
 
     public static RealEstateCategoryModel createRealEstateCategoryModelWithOutName() {

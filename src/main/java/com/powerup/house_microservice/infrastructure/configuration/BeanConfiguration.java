@@ -1,29 +1,11 @@
 package com.powerup.house_microservice.infrastructure.configuration;
 
-import com.powerup.house_microservice.domain.api.ICityServicePort;
-import com.powerup.house_microservice.domain.api.ILocationServicePort;
-import com.powerup.house_microservice.domain.api.IRealEstateCategoryServicePort;
-import com.powerup.house_microservice.domain.api.IStateServicePort;
-import com.powerup.house_microservice.domain.spi.ICityPersistencePort;
-import com.powerup.house_microservice.domain.spi.ILocationPersistencePort;
-import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
-import com.powerup.house_microservice.domain.spi.IStatePersistencePort;
-import com.powerup.house_microservice.domain.usecase.CityUseCase;
-import com.powerup.house_microservice.domain.usecase.LocationUseCase;
-import com.powerup.house_microservice.domain.usecase.RealEstateCategoryUseCase;
-import com.powerup.house_microservice.domain.usecase.StateUseCase;
-import com.powerup.house_microservice.infrastructure.out.jpa.adapter.CityJpaAdapter;
-import com.powerup.house_microservice.infrastructure.out.jpa.adapter.LocationJpaAdapter;
-import com.powerup.house_microservice.infrastructure.out.jpa.adapter.RealEstateCategoryJpaAdapter;
-import com.powerup.house_microservice.infrastructure.out.jpa.adapter.StateJpaAdapter;
-import com.powerup.house_microservice.infrastructure.out.jpa.mapper.ICityEntityMapper;
-import com.powerup.house_microservice.infrastructure.out.jpa.mapper.ILocationEntityMapper;
-import com.powerup.house_microservice.infrastructure.out.jpa.mapper.IRealEstateCategoryEntityMapper;
-import com.powerup.house_microservice.infrastructure.out.jpa.mapper.IStateEntityMapper;
-import com.powerup.house_microservice.infrastructure.out.jpa.repository.ICityRepository;
-import com.powerup.house_microservice.infrastructure.out.jpa.repository.ILocationRepository;
-import com.powerup.house_microservice.infrastructure.out.jpa.repository.IRealEstateCategoryRepository;
-import com.powerup.house_microservice.infrastructure.out.jpa.repository.IStateRepository;
+import com.powerup.house_microservice.domain.api.*;
+import com.powerup.house_microservice.domain.spi.*;
+import com.powerup.house_microservice.domain.usecase.*;
+import com.powerup.house_microservice.infrastructure.out.jpa.adapter.*;
+import com.powerup.house_microservice.infrastructure.out.jpa.mapper.*;
+import com.powerup.house_microservice.infrastructure.out.jpa.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +22,8 @@ public class BeanConfiguration {
     private final ICityRepository cityRepository;
     private final ICityEntityMapper cityEntityMapper;
     private final IStateEntityMapper stateEntityMapper;
+    private final IRealEstateEntityMapper realEstateEntityMapper;
+    private final IRealEstateRepository realEstateRepository;
 
     @Bean
     public IRealEstateCategoryPersistencePort realEstateCategoryPersistencePort() {
@@ -60,17 +44,10 @@ public class BeanConfiguration {
     public StateUseCase stateUseCase() {
         return new StateUseCase(statePersistencePort());
     }
-
-    @Bean
-    public CityUseCase cityUseCase() {
-        return new CityUseCase(cityPersistencePort(), stateUseCase());
-    }
-
     @Bean
     public ILocationServicePort locationServicePort() {
-        return new LocationUseCase(locationPersistencePort(), cityUseCase());
+        return new LocationUseCase(locationPersistencePort(), cityServicePort());
     }
-
 
     @Bean
     public ICityPersistencePort cityPersistencePort() {
@@ -90,6 +67,21 @@ public class BeanConfiguration {
     @Bean
     public IStateServicePort stateServicePort() {
         return new StateUseCase(statePersistencePort());
+    }
+
+    @Bean
+    public IRealEstatePersistencePort realEstatePersistencePort() {
+        return new RealEstateJpaAdapter(realEstateRepository, realEstateEntityMapper);
+    }
+
+    @Bean
+    public RealEstateCategoryUseCase realEstateCategoryUseCase() {
+        return new RealEstateCategoryUseCase(realEstateCategoryPersistencePort());
+    }
+
+    @Bean
+    public IRealEstateServicePort realEstateServicePort() {
+        return new RealEstateUseCase(realEstatePersistencePort(), locationServicePort(), realEstateCategoryUseCase());
     }
 
 }

@@ -3,7 +3,7 @@ package com.powerup.house_microservice.domain.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.CONFLICT)
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class RealEstateCategoryAlreadyExistException extends RuntimeException {
 
     public RealEstateCategoryAlreadyExistException(String message, String name) {

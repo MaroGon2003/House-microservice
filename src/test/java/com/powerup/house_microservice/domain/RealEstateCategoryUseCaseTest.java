@@ -1,14 +1,14 @@
 package com.powerup.house_microservice.domain;
 
 import com.powerup.house_microservice.domain.exception.RealEstateCategoryAlreadyExistException;
+import com.powerup.house_microservice.domain.exception.RealEstateCategoryNotFoundException;
 import com.powerup.house_microservice.domain.factory.RealEstateCategoryTestDataFactory;
 import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
 import com.powerup.house_microservice.domain.spi.IRealEstateCategoryPersistencePort;
 import com.powerup.house_microservice.domain.usecase.RealEstateCategoryUseCase;
-import com.powerup.house_microservice.domain.utils.ErrorMessages;
+import com.powerup.house_microservice.domain.utils.DomainConstants;
 import com.powerup.house_microservice.domain.utils.PaginationValidator;
 import com.powerup.house_microservice.domain.utils.RealEstateValidationUtil;
-import com.powerup.house_microservice.domain.utils.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +18,7 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -93,7 +94,7 @@ class RealEstateCategoryUseCaseTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 RealEstateValidationUtil.validateName(null)
         );
-        assertEquals(ErrorMessages.NAME_CANNOT_BE_BLANK, exception.getMessage());
+        assertEquals(DomainConstants.NAME_CANNOT_BE_BLANK, exception.getMessage());
     }
 
     @Test
@@ -101,7 +102,7 @@ class RealEstateCategoryUseCaseTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 RealEstateValidationUtil.validateName("")
         );
-        assertEquals(ErrorMessages.NAME_CANNOT_BE_BLANK, exception.getMessage());
+        assertEquals(DomainConstants.NAME_CANNOT_BE_BLANK, exception.getMessage());
     }
 
     @Test
@@ -110,16 +111,16 @@ class RealEstateCategoryUseCaseTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 RealEstateValidationUtil.validateName(shortName)
         );
-        assertEquals(ErrorMessages.NAME_LENGTH_ERROR, exception.getMessage());
+        assertEquals(DomainConstants.NAME_LENGTH_ERROR, exception.getMessage());
     }
 
     @Test
     void validateName_ShouldThrowException_WhenNameIsTooLong() {
-        String longName = "a".repeat(ValidationConstants.NAME_MAX_LENGTH + 1);
+        String longName = "a".repeat(DomainConstants.NAME_MAX_LENGTH + 1);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 RealEstateValidationUtil.validateName(longName)
         );
-        assertEquals(ErrorMessages.NAME_LENGTH_ERROR, exception.getMessage());
+        assertEquals(DomainConstants.NAME_LENGTH_ERROR, exception.getMessage());
     }
 
     @Test
@@ -133,7 +134,7 @@ class RealEstateCategoryUseCaseTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 RealEstateValidationUtil.validateDescription(null)
         );
-        assertEquals(ErrorMessages.DESCRIPTION_CANNOT_BE_BLANK, exception.getMessage());
+        assertEquals(DomainConstants.DESCRIPTION_CANNOT_BE_BLANK, exception.getMessage());
     }
 
     @Test
@@ -141,7 +142,7 @@ class RealEstateCategoryUseCaseTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 RealEstateValidationUtil.validateDescription("")
         );
-        assertEquals(ErrorMessages.DESCRIPTION_CANNOT_BE_BLANK, exception.getMessage());
+        assertEquals(DomainConstants.DESCRIPTION_CANNOT_BE_BLANK, exception.getMessage());
     }
 
     @Test
@@ -150,22 +151,45 @@ class RealEstateCategoryUseCaseTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 RealEstateValidationUtil.validateDescription(shortDescription)
         );
-        assertEquals(ErrorMessages.DESCRIPTION_LENGTH_ERROR, exception.getMessage());
+        assertEquals(DomainConstants.DESCRIPTION_LENGTH_ERROR, exception.getMessage());
     }
 
     @Test
     void validateDescription_ShouldThrowException_WhenDescriptionIsTooLong() {
-        String longDescription = "a".repeat(ValidationConstants.DESCRIPTION_MAX_LENGTH + 1);
+        String longDescription = "a".repeat(DomainConstants.DESCRIPTION_MAX_LENGTH + 1);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 RealEstateValidationUtil.validateDescription(longDescription)
         );
-        assertEquals(ErrorMessages.DESCRIPTION_LENGTH_ERROR, exception.getMessage());
+        assertEquals(DomainConstants.DESCRIPTION_LENGTH_ERROR, exception.getMessage());
     }
 
     @Test
     void validateDescription_ShouldNotThrowException_WhenDescriptionIsValid() {
         String validDescription = "Valid Description";
         assertDoesNotThrow(() -> RealEstateValidationUtil.validateDescription(validDescription));
+    }
+
+    @Test
+    void getRealEstateCategoryById_ShouldReturnCategory_WhenCategoryExists() {
+        Long categoryId = 1L;
+        RealEstateCategoryModel categoryModel = RealEstateCategoryTestDataFactory.createRealEstateCategoryModel();
+
+        when(realEstateCategoryPersistencePort.getRealEstateCategoryById(categoryId)).thenReturn(Optional.of(categoryModel));
+
+        RealEstateCategoryModel result = realEstateCategoryUseCase.getRealEstateCategoryById(categoryId);
+
+        assertEquals(categoryModel, result);
+    }
+
+    @Test
+    void getRealEstateCategoryById_ShouldThrowException_WhenCategoryDoesNotExist() {
+        Long categoryId = 1L;
+
+        when(realEstateCategoryPersistencePort.getRealEstateCategoryById(categoryId)).thenReturn(Optional.empty());
+
+        assertThrows(RealEstateCategoryNotFoundException.class, () -> {
+            realEstateCategoryUseCase.getRealEstateCategoryById(categoryId);
+        });
     }
 
 }

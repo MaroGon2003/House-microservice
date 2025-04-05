@@ -1,6 +1,6 @@
 package com.powerup.house_microservice.application.dto.request;
 
-import com.powerup.house_microservice.application.utils.ValidationMessages;
+import com.powerup.house_microservice.application.utils.ApplicationConstants;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 public class RealEstateCategoryRequestDto {
 
     @NotBlank
-    @Size(min = 2, max = 50, message = ValidationMessages.NAME_SIZE_REALESTATE)
+    @Size(min = ApplicationConstants.NAME_MIN_SIZE_REAL_ESTATE_CATEGORY, max = ApplicationConstants.NAME_MAX_SIZE_REAL_ESTATE_CATEGORY, message = ApplicationConstants.NAME_SIZE_REAL_ESTATE_CATEGORY)
     private String name;
 
     @NotBlank
-    @Size(max = 90, message = ValidationMessages.DESCRIPTION_SIZE_REALESTATE)
+    @Size(max = ApplicationConstants.DESCRIPTION_MAX_SIZE_REAL_ESTATE_CATEGORY, message =ApplicationConstants.DESCRIPTION_SIZE_REAL_ESTATE_CATEGORY)
     private String description;
 
 }

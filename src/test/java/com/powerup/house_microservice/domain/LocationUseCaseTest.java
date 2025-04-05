@@ -1,13 +1,13 @@
 package com.powerup.house_microservice.domain;
 
+import com.powerup.house_microservice.domain.api.ICityServicePort;
 import com.powerup.house_microservice.domain.exception.*;
 import com.powerup.house_microservice.domain.factory.LocationTestDataFactory;
 import com.powerup.house_microservice.domain.model.CityModel;
 import com.powerup.house_microservice.domain.model.LocationModel;
 import com.powerup.house_microservice.domain.spi.ILocationPersistencePort;
-import com.powerup.house_microservice.domain.usecase.CityUseCase;
 import com.powerup.house_microservice.domain.usecase.LocationUseCase;
-import com.powerup.house_microservice.domain.utils.ErrorMessages;
+import com.powerup.house_microservice.domain.utils.DomainConstants;
 import com.powerup.house_microservice.domain.utils.PaginationValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ class LocationUseCaseTest {
     private ILocationPersistencePort locationPersistencePort;
 
     @Mock
-    private CityUseCase cityUseCase;
+    private ICityServicePort cityServicePort;
 
     @InjectMocks
     private LocationUseCase locationUseCase;
@@ -50,6 +50,7 @@ class LocationUseCaseTest {
 
     @Test
     void getLocations_ShouldReturnLocations_WhenStateAndCityProvided() {
+
         List<LocationModel> locationModelList = List.of(LocationTestDataFactory.createValidLocationModel());
 
         when(locationPersistencePort.getAllLocationsByStateAndCityName(stateName, cityName, page, size, sortDirection)).thenReturn(locationModelList);
@@ -97,7 +98,7 @@ class LocationUseCaseTest {
         Long cityId = 1L;
         String neighborhood = "Test Neighborhood";
 
-        when(cityUseCase.getCityById(cityId)).thenReturn(null);
+        when(cityServicePort.getCityById(cityId)).thenReturn(null);
 
         assertThrows(CityNotFoundException.class, () -> locationUseCase.saveLocation(cityId, neighborhood));
     }
@@ -108,7 +109,7 @@ class LocationUseCaseTest {
         String neighborhood = "Test Neighborhood";
         CityModel city = LocationTestDataFactory.createValidCityModel();
 
-        when(cityUseCase.getCityById(cityId)).thenReturn(city);
+        when(cityServicePort.getCityById(cityId)).thenReturn(city);
 
         locationUseCase.saveLocation(cityId, neighborhood);
 
@@ -142,7 +143,7 @@ class LocationUseCaseTest {
                 PaginationValidator.validatePaginationParameters(invalidPage, validSize, validSortDirection)
         );
 
-        assertEquals(ErrorMessages.PAGE_INDEX_NEGATIVE_ERROR, exception.getMessage());
+        assertEquals(DomainConstants.PAGE_INDEX_NEGATIVE_ERROR, exception.getMessage());
     }
 
     @Test
@@ -155,7 +156,7 @@ class LocationUseCaseTest {
                 PaginationValidator.validatePaginationParameters(validPage, invalidSize, validSortDirection)
         );
 
-        assertEquals(ErrorMessages.PAGE_SIZE_ZERO_OR_NEGATIVE_ERROR, exception.getMessage());
+        assertEquals(DomainConstants.PAGE_SIZE_ZERO_OR_NEGATIVE_ERROR, exception.getMessage());
     }
 
     @Test
@@ -168,7 +169,7 @@ class LocationUseCaseTest {
                 PaginationValidator.validatePaginationParameters(validPage, validSize, invalidSortDirection)
         );
 
-        assertEquals(ErrorMessages.SORT_DIRECTION_INVALID_ERROR, exception.getMessage());
+        assertEquals(DomainConstants.SORT_DIRECTION_INVALID_ERROR, exception.getMessage());
     }
 
     @Test
@@ -181,4 +182,28 @@ class LocationUseCaseTest {
                 PaginationValidator.validatePaginationParameters(validPage, validSize, validSortDirection)
         );
     }
+
+    @Test
+    void getLocationById_ShouldReturnLocation_WhenLocationExists() {
+        Long locationId = 1L;
+        LocationModel locationModel = LocationTestDataFactory.createValidLocationModel();
+
+        when(locationPersistencePort.getLocationById(locationId)).thenReturn(locationModel);
+
+        LocationModel result = locationUseCase.getLocationById(locationId);
+
+        assertEquals(locationModel, result);
+    }
+
+    @Test
+    void getLocationById_ShouldThrowException_WhenLocationDoesNotExist() {
+        Long locationId = 1L;
+
+        when(locationPersistencePort.getLocationById(locationId)).thenReturn(null);
+
+        assertThrows(LocationNotFoundException.class , () -> {
+            locationUseCase.getLocationById(locationId);
+        });
+    }
+
 }

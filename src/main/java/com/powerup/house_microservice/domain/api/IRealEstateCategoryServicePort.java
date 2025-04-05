@@ -8,5 +8,6 @@ public interface IRealEstateCategoryServicePort {
 
     void saveRealEstateCategory(RealEstateCategoryModel realEstateCategory);
     List<RealEstateCategoryModel> getAllRealEstateCategories(int page, int size, boolean ascending);
+    RealEstateCategoryModel getRealEstateCategoryById(Long realEstateCategoryId);
 
 }
