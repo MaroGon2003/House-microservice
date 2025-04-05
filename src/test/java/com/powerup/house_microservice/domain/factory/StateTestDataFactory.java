@@ -5,15 +5,14 @@ import com.powerup.house_microservice.domain.model.StateModel;
 public class StateTestDataFactory {
 
     public static StateModel createStateModel() {
-        StateModel state = new StateModel();
-        state.setName("Test State");
-        state.setDescription("Test Description");
-        return state;
+        return new StateModel(null,"Test State", "Test Description");
     }
 
     public static StateModel createStateModelWithId(Long id) {
-        StateModel state = createStateModel();
+        StateModel state = new StateModel();
         state.setId(id);
+        state.setName("Test State");
+        state.setDescription("Test Description");
         return state;
     }
 

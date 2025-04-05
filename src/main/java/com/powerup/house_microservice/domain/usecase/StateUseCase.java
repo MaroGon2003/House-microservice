@@ -5,7 +5,7 @@ import com.powerup.house_microservice.domain.exception.StateAlreadyExistExceptio
 import com.powerup.house_microservice.domain.exception.StateNotFoundException;
 import com.powerup.house_microservice.domain.model.StateModel;
 import com.powerup.house_microservice.domain.spi.IStatePersistencePort;
-import com.powerup.house_microservice.domain.utils.ErrorMessages;
+import com.powerup.house_microservice.domain.utils.DomainConstants;
 import com.powerup.house_microservice.domain.utils.StateCityValidationUtils;
 
 import java.util.Optional;
@@ -25,18 +25,19 @@ public class StateUseCase implements IStateServicePort {
         StateCityValidationUtils.validateDescription(state.getDescription());
 
         if(statePersistencePort.existStateByName(state.getName())){
-            throw new StateAlreadyExistException(ErrorMessages.STATE_ALREADY_EXIST, state.getName());
+            throw new StateAlreadyExistException(DomainConstants.STATE_ALREADY_EXIST, state.getName());
         }
 
         statePersistencePort.create(state);
 
     }
 
+    @Override
     public StateModel getStateById(Long id){
 
         Optional<StateModel> state = Optional.ofNullable(statePersistencePort.getStateById(id));
 
-        return state.orElseThrow(() -> new StateNotFoundException(ErrorMessages.STATE_NOT_FOUND, id));
+        return state.orElseThrow(() -> new StateNotFoundException(DomainConstants.STATE_NOT_FOUND, id));
 
     }
 

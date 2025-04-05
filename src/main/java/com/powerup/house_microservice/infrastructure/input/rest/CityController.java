@@ -2,21 +2,19 @@ package com.powerup.house_microservice.infrastructure.input.rest;
 
 import com.powerup.house_microservice.application.dto.request.CityRequestDto;
 import com.powerup.house_microservice.application.handler.ICityHandler;
+import com.powerup.house_microservice.infrastructure.utils.InfrastructureConstants;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cities")
-@Tag(name = "Cities", description = "Endpoints for managing cities")
+@RequestMapping(InfrastructureConstants.CITY_CONTROLLER_REQUEST_MAPPING)
+@Tag(name = InfrastructureConstants.CITY_CONTROLLER_TAG_NAME, description = InfrastructureConstants.CITY_CONTROLLER_TAG_DESCRIPTION)
 public class CityController {
 
     private final ICityHandler cityHandler;
@@ -26,15 +24,15 @@ public class CityController {
     }
 
     @Operation(
-            summary = "Create a new city",
-            description = "Creates a new city and returns a 201 Created response."
+            summary = InfrastructureConstants.CITY_CONTROLLER_OPERATION_SUMMARY,
+            description = InfrastructureConstants.CITY_CONTROLLER_OPERATION_DESCRIPTION
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "City created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request body" , content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_201, description = InfrastructureConstants.CITY_CONTROLLER_RESPONSE_201_DESCRIPTION),
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_400, description = InfrastructureConstants.CITY_CONTROLLER_RESPONSE_400_DESCRIPTION),
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_500, description = InfrastructureConstants.CITY_CONTROLLER_RESPONSE_500_DESCRIPTION)
     })
-    @PostMapping("/states/{stateId}/cities")
+    @PostMapping(InfrastructureConstants.CITY_CONTROLLER_POST_MAPPING)
     public ResponseEntity<Void> createCity(@RequestBody @Valid CityRequestDto city, @PathVariable Long stateId) {
         cityHandler.create(city, stateId);
         return ResponseEntity.status(HttpStatus.CREATED).build();

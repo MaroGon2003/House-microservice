@@ -24,13 +24,13 @@ public class ExceptionManager {
     @ExceptionHandler(StateAlreadyExistException.class)
     public ResponseEntity<ApiResponse> stateAlreadyExistException(StateAlreadyExistException e, WebRequest request) {
         ApiResponse apiResponse = new ApiResponse(e.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(apiResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RealEstateCategoryAlreadyExistException.class)
     public ResponseEntity<ApiResponse> realEstateCategoryAlreadyExistException(RealEstateCategoryAlreadyExistException e, WebRequest request) {
         ApiResponse apiResponse = new ApiResponse(e.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(apiResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CityNotFoundException.class)
@@ -43,6 +43,24 @@ public class ExceptionManager {
     public ResponseEntity<ApiResponse> stateNotFoundException(StateNotFoundException e, WebRequest request) {
         ApiResponse apiResponse = new ApiResponse(e.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<ApiResponse> locationNotFoundException(LocationNotFoundException e, WebRequest request) {
+        ApiResponse apiResponse = new ApiResponse(e.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RealEstateCategoryNotFoundException.class)
+    public ResponseEntity<ApiResponse> realEstateCategoryNotFoundException(RealEstateCategoryNotFoundException e, WebRequest request) {
+        ApiResponse apiResponse = new ApiResponse(e.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PublicationDateException.class)
+    public ResponseEntity<ApiResponse> publicationDateException(PublicationDateException e, WebRequest request) {
+        ApiResponse apiResponse = new ApiResponse(e.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

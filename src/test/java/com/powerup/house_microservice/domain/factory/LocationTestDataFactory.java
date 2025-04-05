@@ -24,6 +24,7 @@ public class LocationTestDataFactory {
 
     public static LocationModel createValidLocationModel() {
         LocationModel location = new LocationModel();
+        location.setId(1L);
         location.setCity(createValidCityModel());
         location.setNeighborhood("Test Neighborhood");
         return location;

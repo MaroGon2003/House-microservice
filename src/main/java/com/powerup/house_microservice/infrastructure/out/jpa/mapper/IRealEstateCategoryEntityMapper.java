@@ -13,7 +13,7 @@ import java.util.List;
 public interface IRealEstateCategoryEntityMapper {
 
     RealEstateCategoryEntity toRealEstateCategoryEntity(RealEstateCategoryModel realEstateCategoryModel);
-
     List<RealEstateCategoryModel> toRealEstateCategoryModelList(List<RealEstateCategoryEntity> realEstateCategoryEntityList);
+    RealEstateCategoryModel toRealEstateCategoryModel(RealEstateCategoryEntity realEstateCategoryEntity);
 
 }
