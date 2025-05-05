@@ -64,6 +64,11 @@ public class InfrastructureConstants {
     public static final String REAL_ESTATE_CONTROLLER_RESPONSE_201_DESCRIPTION = "Real estate created successfully";
     public static final String REAL_ESTATE_CONTROLLER_RESPONSE_400_DESCRIPTION = "Invalid request body";
     public static final String REAL_ESTATE_CONTROLLER_RESPONSE_500_DESCRIPTION = "Internal server error";
+    // RealEstateController operation constants
+    public static final String REAL_ESTATE_CONTROLLER_OPERATION_GET_SUMMARY = "Get real estates";
+    public static final String REAL_ESTATE_CONTROLLER_OPERATION_GET_DESCRIPTION = "Retrieve a paginated list of real estates filtered by various criteria";
+    public static final String REAL_ESTATE_CONTROLLER_RESPONSE_200_DESCRIPTION = "List of real estates retrieved successfully";
+    public static final String DEFAULT_MIN_PRICE = "0.0";
 
 
     // StateController constants
@@ -81,5 +86,17 @@ public class InfrastructureConstants {
     public static final String SORT_DIRECTION_ASC = "ASC";
     public static final String SORT_BY_CITY_NAME = "city";
     public static final String SORT_BY_NAME = "name";
+
+    // RealEstateJpaAdapter constants
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_STATUS = "status";
+    public static final String FIELD_LOCATION = "location";
+    public static final String FIELD_CITY = "city";
+    public static final String FIELD_STATE = "state";
+    public static final String FIELD_NAME = "name";
+    public static final String FIELD_CATEGORY = "category";
+    public static final String FIELD_ROOMS_COUNT = "roomsCount";
+    public static final String FIELD_BATHROOMS_COUNT = "bathroomsCount";
+    public static final String FIELD_PRICE = "price";
 
 }

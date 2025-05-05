@@ -2,6 +2,7 @@ package com.powerup.house_microservice.application.utils;
 
 import com.powerup.house_microservice.application.dto.response.LocationResponseDto;
 import com.powerup.house_microservice.application.dto.response.RealEstateCategoryResponseDto;
+import com.powerup.house_microservice.application.dto.response.RealEstateResponseDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class ContentDynamic {
     static {
         typeToPropertyNameMap.put(LocationResponseDto.class, ApplicationConstants.LOCATIONS);
         typeToPropertyNameMap.put(RealEstateCategoryResponseDto.class, ApplicationConstants.REAL_ESTATE_CATEGORIES);
+        typeToPropertyNameMap.put(RealEstateResponseDto.class, ApplicationConstants.REAL_ESTATE);
     }
 
     public static String getPropertyName(Class<?> clazz) {

@@ -4,14 +4,14 @@ import com.powerup.house_microservice.domain.api.ILocationServicePort;
 import com.powerup.house_microservice.domain.api.IRealEstateCategoryServicePort;
 import com.powerup.house_microservice.domain.api.IRealEstateServicePort;
 import com.powerup.house_microservice.domain.exception.PublicationDateException;
-import com.powerup.house_microservice.domain.model.ListingStatus;
-import com.powerup.house_microservice.domain.model.LocationModel;
-import com.powerup.house_microservice.domain.model.RealEstateCategoryModel;
-import com.powerup.house_microservice.domain.model.RealEstateModel;
+import com.powerup.house_microservice.domain.model.*;
 import com.powerup.house_microservice.domain.spi.IRealEstatePersistencePort;
 import com.powerup.house_microservice.domain.utils.DomainConstants;
+import com.powerup.house_microservice.domain.utils.PaginationValidator;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public class RealEstateUseCase implements IRealEstateServicePort {
 
@@ -53,6 +53,30 @@ public class RealEstateUseCase implements IRealEstateServicePort {
         }
 
         realEstatePersistencePort.createRealEstate(realEstateModel);
+
+    }
+
+
+    @Override
+    public List<RealEstateModel> getRealEstates(String stateName, String cityName, Long categoryId, Integer rooms, Integer bathrooms, BigDecimal minPrice, BigDecimal maxPrice, int page, int size, boolean ascending) {
+
+        String sortDirection = ascending ? DomainConstants.ASC : DomainConstants.DESC;
+
+        PaginationValidator.validatePaginationParameters(page, size, sortDirection);
+
+        RealEstateFilter filter = new RealEstateFilter();
+        filter.setStateName(stateName);
+        filter.setCityName(cityName);
+        filter.setCategoryId(categoryId);
+        filter.setRooms(rooms);
+        filter.setBathrooms(bathrooms);
+        filter.setMinPrice(minPrice);
+        filter.setMaxPrice(maxPrice);
+        filter.setPage(page);
+        filter.setSize(size);
+        filter.setSortDirection(sortDirection);
+
+        return realEstatePersistencePort.getRealEstatesByFilters(filter);
 
     }
 

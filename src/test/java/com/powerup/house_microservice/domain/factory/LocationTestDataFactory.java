@@ -11,6 +11,7 @@ public class LocationTestDataFactory {
         city.setId(1L);
         city.setName("Test City");
         city.setDescription("Test Description");
+        city.setState(createValidStateModel());
         return city;
     }
 
