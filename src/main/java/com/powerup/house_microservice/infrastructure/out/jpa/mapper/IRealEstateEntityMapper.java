@@ -5,11 +5,16 @@ import com.powerup.house_microservice.infrastructure.out.jpa.entity.RealEstateEn
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IRealEstateEntityMapper {
 
     RealEstateEntity toRealEstateEntity(RealEstateModel realEstateModel);
+
+    RealEstateModel toRealEstateModel(RealEstateEntity realEstateEntity);
+    List<RealEstateModel> toRealEstateModelList(List<RealEstateEntity> realEstateEntities);
 
 }

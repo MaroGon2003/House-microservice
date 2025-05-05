@@ -45,6 +45,7 @@ public class ApplicationConstants {
     // CONTENT DYNAMIC
     public static final String LOCATIONS = "locations";
     public static final String REAL_ESTATE_CATEGORIES = "realEstateCategories";
+    public static final String REAL_ESTATE = "realEstates";
     public static final String DEFAULT_CONTENT = "content";
 
 }
