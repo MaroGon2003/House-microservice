@@ -82,4 +82,9 @@ public class InfrastructureConstants {
     public static final String SORT_BY_CITY_NAME = "city";
     public static final String SORT_BY_NAME = "name";
 
+
+    //JWT
+    public static final String TOKEN_INVALID =  "Token is invalid";
+    public static final String ROLE_CLAIM = "role";
+
 }
