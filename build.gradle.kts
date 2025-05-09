@@ -52,6 +52,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.mockito:mockito-junit-jupiter:5.14.2")
+
+	// JWT
+	implementation("com.auth0:java-jwt:4.4.0")
 }
 
 tasks.withType<Test> {

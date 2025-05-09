@@ -81,11 +81,14 @@ public class InfrastructureConstants {
     public static final String STATE_CONTROLLER_RESPONSE_400_DESCRIPTION = "Invalid request body";
     public static final String STATE_CONTROLLER_RESPONSE_500_DESCRIPTION = "Internal server error";
 
-
     //Sort direction constants
     public static final String SORT_DIRECTION_ASC = "ASC";
     public static final String SORT_BY_CITY_NAME = "city";
     public static final String SORT_BY_NAME = "name";
+
+    //JWT
+    public static final String TOKEN_INVALID =  "Token is invalid";
+    public static final String ROLE_CLAIM = "role";
 
     // RealEstateJpaAdapter constants
     public static final String FIELD_ID = "id";

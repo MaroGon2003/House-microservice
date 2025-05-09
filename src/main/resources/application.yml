@@ -1,6 +1,12 @@
 server:
   port: ${PORT}
 
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    user:
+      generator: ${JWT_USER_GENERATOR}
+
 spring:
   datasource:
     url: ${DB_URL}
