@@ -27,8 +27,12 @@ public class PagedResult<T> {
     @JsonAnyGetter
     public Map<String, Object> getContent() {
         Map<String, Object> contentMap = new HashMap<>();
-        String propertyName = ContentDynamic.getPropertyName(content.get(0).getClass());
-        contentMap.put(propertyName, content);
+        if (content.isEmpty()) {
+            contentMap.put(ApplicationConstants.DEFAULT_CONTENT, List.of());
+        } else {
+            String propertyName = ContentDynamic.getPropertyName(content.get(0).getClass());
+            contentMap.put(propertyName, content);
+        }
         return contentMap;
     }
 
