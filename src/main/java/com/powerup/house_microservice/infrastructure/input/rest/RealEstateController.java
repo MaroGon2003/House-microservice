@@ -66,4 +66,21 @@ public class RealEstateController {
 
         return ResponseEntity.ok(realEstateHandler.getRealEstates(stateName, cityName, categoryId, rooms, bathrooms, minPrice, maxPrice, page, size, ascending));
     }
+
+
+    @Operation(
+            summary = InfrastructureConstants.REAL_ESTATE_CONTROLLER_OPERATION_EXISTS_BY_ID_SUMMARY,
+            description = InfrastructureConstants.REAL_ESTATE_CONTROLLER_OPERATION_EXISTS_BY_ID_DESCRIPTION
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_200, description = InfrastructureConstants.REAL_ESTATE_CONTROLLER_RESPONSE_200_EXISTS_DESCRIPTION),
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_400, description = InfrastructureConstants.REAL_ESTATE_CONTROLLER_RESPONSE_400_EXISTS_DESCRIPTION),
+            @ApiResponse(responseCode = InfrastructureConstants.RESPONSE_CODE_500, description = InfrastructureConstants.REAL_ESTATE_CONTROLLER_RESPONSE_500_EXISTS_DESCRIPTION)
+    })
+    @GetMapping(InfrastructureConstants.REAL_ESTATE_CONTROLLER_EXISTS_BY_ID)
+    public ResponseEntity<Boolean> existsById(
+            @RequestParam Long houseId) {
+        return ResponseEntity.ok(realEstateHandler.existsById(houseId));
+    }
+
 }
