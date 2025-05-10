@@ -69,6 +69,12 @@ public class InfrastructureConstants {
     public static final String REAL_ESTATE_CONTROLLER_OPERATION_GET_DESCRIPTION = "Retrieve a paginated list of real estates filtered by various criteria";
     public static final String REAL_ESTATE_CONTROLLER_RESPONSE_200_DESCRIPTION = "List of real estates retrieved successfully";
     public static final String DEFAULT_MIN_PRICE = "0.0";
+    public static final String REAL_ESTATE_CONTROLLER_EXISTS_BY_ID = "/exists";
+    public static final String REAL_ESTATE_CONTROLLER_OPERATION_EXISTS_BY_ID_SUMMARY = "Check if a real estate exists by ID";
+    public static final String REAL_ESTATE_CONTROLLER_OPERATION_EXISTS_BY_ID_DESCRIPTION = "Verifies if a real estate with the given ID exists in the system.";
+    public static final String REAL_ESTATE_CONTROLLER_RESPONSE_200_EXISTS_DESCRIPTION = "Real estate existence verified successfully";
+    public static final String REAL_ESTATE_CONTROLLER_RESPONSE_400_EXISTS_DESCRIPTION = "Invalid request parameter";
+    public static final String REAL_ESTATE_CONTROLLER_RESPONSE_500_EXISTS_DESCRIPTION = "Internal server error";
 
 
     // StateController constants

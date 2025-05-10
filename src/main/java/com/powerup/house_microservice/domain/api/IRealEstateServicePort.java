@@ -13,4 +13,6 @@ public interface IRealEstateServicePort {
                                          Integer rooms, Integer bathrooms, BigDecimal minPrice,BigDecimal maxPrice,
                                          int page, int size, boolean ascending);
 
+    boolean existsById(Long id);
+
 }

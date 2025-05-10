@@ -51,6 +51,7 @@ public class SecurityConfig {
                         //RealEstates
                         .requestMatchers(HttpMethod.POST, "/real-estates").hasAnyRole( "SELLER")
                         .requestMatchers(HttpMethod.GET, "/real-estates").hasAnyRole("ADMIN", "SELLER", "BUYER")
+                        .requestMatchers(HttpMethod.GET, "/real-estates/exists").permitAll()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtEntryPoint))

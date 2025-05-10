@@ -98,5 +98,9 @@ public class RealEstateJpaAdapter implements IRealEstatePersistencePort {
         return realEstateEntityMapper.toRealEstateModelList(pageResult.getContent());
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return realEstateRepository.existsById(id);
+    }
 
 }

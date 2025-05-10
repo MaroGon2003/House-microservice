@@ -21,8 +21,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -168,6 +167,44 @@ class RealEstateUseCaseTest {
         });
 
         verify(realEstatePersistencePort, never()).getRealEstatesByFilters(any(RealEstateFilter.class));
+    }
+
+    @Test
+    void existsById_shouldReturnFalse_whenIdIsNull() {
+        // Act
+        boolean result = realEstateUseCase.existsById(null);
+
+        // Assert
+        assertFalse(result);
+        verify(realEstatePersistencePort, never()).existsById(any());
+    }
+
+    @Test
+    void existsById_shouldReturnTrue_whenIdExists() {
+        // Arrange
+        Long validId = 1L;
+        when(realEstatePersistencePort.existsById(validId)).thenReturn(true);
+
+        // Act
+        boolean result = realEstateUseCase.existsById(validId);
+
+        // Assert
+        assertTrue(result);
+        verify(realEstatePersistencePort, times(1)).existsById(validId);
+    }
+
+    @Test
+    void existsById_shouldReturnFalse_whenIdDoesNotExist() {
+        // Arrange
+        Long invalidId = 2L;
+        when(realEstatePersistencePort.existsById(invalidId)).thenReturn(false);
+
+        // Act
+        boolean result = realEstateUseCase.existsById(invalidId);
+
+        // Assert
+        assertFalse(result);
+        verify(realEstatePersistencePort, times(1)).existsById(invalidId);
     }
 
 }

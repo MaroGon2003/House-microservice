@@ -80,4 +80,12 @@ public class RealEstateUseCase implements IRealEstateServicePort {
 
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        if (id == null) {
+            return false;
+        }
+        return realEstatePersistencePort.existsById(id);
+    }
+
 }

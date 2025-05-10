@@ -36,4 +36,9 @@ public class RealEstateHandler implements IRealEstateHandler {
         return new PagedResult<>(realEstateResponseDto, page, size);
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return realEstateServicePort.existsById(id);
+    }
+
 }
